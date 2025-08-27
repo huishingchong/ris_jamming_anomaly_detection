@@ -588,7 +588,7 @@ function [storage, tracking] = generate_stratified_active_signals(CONFIG, derive
         band_name = CONFIG.ACTIVE_BAND_NAMES{band_idx};
         target_range = CONFIG.ACTIVE_JAMMING_BANDS.(band_name);
 
-        fprintf('-Generating %s RIS jamming samples (%.1f-%.1f dB)...\n', band_name, target_range(1), target_range(2));
+        fprintf('-Generating %s Active jamming samples (%.1f-%.1f dB)...\n', band_name, target_range(1), target_range(2));
         
         attempts = 0;
         accepted = 0;
