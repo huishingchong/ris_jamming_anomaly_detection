@@ -25,8 +25,8 @@ fprintf('Figures will be saved to: %s\n', FIGURES_DIR);
 %% Default Parameters
 % Aligned with Lyu et al. for validation (see their IV. Performance Evaluation section)
 M = 8;
-N = 250; % For MRT beamforming N=250
-% Note: For other beamforming explored N=150 (aligned with Lyu et al.) and would need to change below omega values
+N = 150;
+% Note: to change beamforming strategy, would need to change below omega values throughout (currently MRT is in use, random beamforing is commented out)
 
 PT_dBm = 30;
 sigma2_dBm = -60;
