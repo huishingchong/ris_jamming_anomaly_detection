@@ -25,7 +25,7 @@ fprintf('Figures will be saved to: %s\n', FIGURES_DIR);
 %% Default Parameters
 % Aligned with Lyu et al. for validation (see their IV. Performance Evaluation section)
 M = 8;
-N = 150;
+N = 150; % We observe that MRT beamforming is weak and would need higher N like N=250
 % Note: to change beamforming strategy, would need to change below omega values throughout (currently MRT is in use, random beamforing is commented out)
 
 PT_dBm = 30;
