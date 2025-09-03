@@ -432,6 +432,7 @@ function generate_and_save_figure_3(x_t, x_r, x_i, y_i, M, PT_dBm, b, A, ...
     F, D, OMEGA_SEED, num_runs, figures_dir, use_ci, confidence_level)
     
     N_range = 100:20:200;
+    % N_range = 100:50:350; % for extended analysis (MRT)
     PT_linear = 10^(PT_dBm/10) / 1000;
     
     fprintf('Generating Figure 3 with %d runs per point\n', num_runs);
