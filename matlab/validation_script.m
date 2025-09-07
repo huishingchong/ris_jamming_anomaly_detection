@@ -25,8 +25,8 @@ fprintf('Figures will be saved to: %s\n', FIGURES_DIR);
 %% Default Parameters
 % Aligned with Lyu et al. for validation (see their IV. Performance Evaluation section)
 M = 8;
-N = 250; % For MRT beamforming N=250
-% Note: For other beamforming explored N=150 (aligned with Lyu et al.) and would need to change below omega values
+N = 150; % We observe that MRT beamforming is weak and would need higher N like N=250
+% Note: to change beamforming strategy, would need to change below omega values throughout (currently MRT is in use, random beamforing is commented out)
 
 PT_dBm = 30;
 sigma2_dBm = -60;
@@ -432,6 +432,7 @@ function generate_and_save_figure_3(x_t, x_r, x_i, y_i, M, PT_dBm, b, A, ...
     F, D, OMEGA_SEED, num_runs, figures_dir, use_ci, confidence_level)
     
     N_range = 100:20:200;
+    % N_range = 100:50:350; % for extended analysis (MRT)
     PT_linear = 10^(PT_dBm/10) / 1000;
     
     fprintf('Generating Figure 3 with %d runs per point\n', num_runs);
