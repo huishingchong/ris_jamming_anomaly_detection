@@ -1,0 +1,79 @@
+================================================================================
+FEATURE DISTRIBUTION ANALYSIS REPORT
+================================================================================
+
+Analysis Mode: Binary Classification (Normal vs RIS Jamming)
+
+DATASET SUMMARY
+----------------------------------------
+Total samples: 2,000
+Features analysed: 16
+
+CLASS DISTRIBUTION
+----------------------------------------
+Normal: 1,000 samples (50.0%)
+RIS Jamming: 1,000 samples (50.0%)
+
+TOP DISCRIMINATIVE FEATURES
+----------------------------------------
+Rank Feature                   F-stat     p-value      η²       Discrim 
+-------------------------------------------------------------------
+1    std_magnitude             4334.04    0.00e+00     0.684    0.684   
+2    mean_magnitude            4306.96    0.00e+00     0.683    0.683   
+3    mean_psd_db               3280.52    0.00e+00     0.621    0.621   
+4    std_psd_db                3134.30    0.00e+00     0.611    0.611   
+5    received_power            3093.81    0.00e+00     0.608    0.608   
+6    sinr_estimate             2964.54    0.00e+00     0.597    0.597   
+7    spectral_flatness         762.48     1.91e-142    0.276    0.276   
+8    spectral_entropy          636.30     4.08e-122    0.242    0.242   
+9    peak_to_avg_ratio         520.35     1.49e-102    0.207    0.207   
+10   amplitude_kurtosis        495.81     2.69e-98     0.199    0.199   
+11   spectral_centroid         450.50     2.53e-90     0.184    0.184   
+12   spectral_bandwidth        251.46     1.97e-53     0.112    0.112   
+13   spectral_rolloff          151.92     1.07e-33     0.071    0.071   
+14   mean_imag                 3.67       0.0556       0.002    0.002   
+15   mean_real                 0.95       0.3287       0.000    0.000   
+
+FEATURE MEANS BY CLASS (Top 8 Features)
+----------------------------------------
+
+std_magnitude:
+  Normal: 0.0003 ± 0.0001
+  RIS Jamming: 0.0001 ± 0.0000
+
+mean_magnitude:
+  Normal: 0.0006 ± 0.0001
+  RIS Jamming: 0.0002 ± 0.0001
+
+mean_psd_db:
+  Normal: -139.9634 ± 0.6581
+  RIS Jamming: -142.7959 ± 1.4177
+
+std_psd_db:
+  Normal: 13.7918 ± 0.7815
+  RIS Jamming: 10.0539 ± 1.9603
+
+received_power:
+  Normal: -63.6544 ± 1.9892
+  RIS Jamming: -73.2788 ± 5.0945
+
+sinr_estimate:
+  Normal: 33.3401 ± 1.9912
+  RIS Jamming: 23.5215 ± 5.3406
+
+spectral_flatness:
+  Normal: 0.0099 ± 0.0033
+  RIS Jamming: 0.0648 ± 0.0628
+
+spectral_entropy:
+  Normal: 0.7537 ± 0.0042
+  RIS Jamming: 0.7726 ± 0.0233
+
+----------------------------------------
+Top 5 features:
+  std_magnitude mean_magnitude mean_psd_db std_psd_db received_power
+
+Top 10 features:
+  std_magnitude mean_magnitude mean_psd_db std_psd_db received_power sinr_estimate spectral_flatness spectral_entropy peak_to_avg_ratio amplitude_kurtosis
+
+================================================================================
