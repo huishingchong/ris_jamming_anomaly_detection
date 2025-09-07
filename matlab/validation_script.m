@@ -5,6 +5,7 @@
 % RIS Jamming algorithm and theory credits to Lyu et al.
 
 clear; close all; clc;
+cvx_version;
 
 %% Figure Saving Configuration
 FIGURES_DIR = fullfile(pwd, 'validation_figures');
@@ -25,8 +26,8 @@ fprintf('Figures will be saved to: %s\n', FIGURES_DIR);
 %% Default Parameters
 % Aligned with Lyu et al. for validation (see their IV. Performance Evaluation section)
 M = 8;
-N = 150; % We observe that MRT beamforming is weak and would need higher N like N=250
-% Note: to change beamforming strategy, would need to change below omega values throughout (currently MRT is in use, random beamforing is commented out)
+N = 250; % We observe that RIS-based jamming in MRT beamforming is weak and would need higher N like N=250
+% Note: to change beamforming strategy, would need to change below omega values throughout (currently MRT is in use, random beamforming is commented out)
 
 PT_dBm = 30;
 sigma2_dBm = -60;
@@ -291,9 +292,6 @@ function [h_d, h_r, G, omega, PL_jammer_rx] = generate_channels( ...
     % % Randomised beamforming?
     % omega_base = (randn(M, 1) + 1j*randn(M, 1));
     % omega = sqrt(PT_linear) * omega_base / norm(omega_base);
-    
-    % % Uniform beamforming?
-    % omega = sqrt(PT_linear/M) * ones(M, 1);
 
     PL_jammer_rx = PL_RIS_LR;
 end
@@ -341,9 +339,7 @@ function generate_and_save_figure_2(x_t, x_r, x_i, y_i, M, N, b, A, ...
 
             % omega_base = (randn(M, 1) + 1j*randn(M, 1));
             % omega = sqrt(PT_linear) * omega_base / norm(omega_base);
-            
-            % omega = sqrt(PT_linear/M) * ones(M, 1);
-            
+                        
             signal_power_direct = abs(h_d * omega)^2;
             SINR_no_jam_runs(pt_idx, run) = signal_power_direct / sigma2;
             
@@ -471,8 +467,6 @@ function generate_and_save_figure_3(x_t, x_r, x_i, y_i, M, PT_dBm, b, A, ...
 
             % omega_base = (randn(M, 1) + 1j*randn(M, 1));
             % omega = sqrt(PT_linear) * omega_base / norm(omega_base);
-
-            % omega = sqrt(PT_linear/M) * ones(M, 1);
             
             signal_power_direct = abs(h_d * omega)^2;
             SINR_no_jam_runs(n_idx, run) = signal_power_direct / sigma2;
@@ -613,8 +607,6 @@ function generate_and_save_figure_4(x_t, x_r, x_i, y_i, M, N, PT_dBm, b, A, ...
 
             % omega_base = (randn(M, 1) + 1j*randn(M, 1));
             % omega = sqrt(PT_linear) * omega_base / norm(omega_base);
-
-            % omega = sqrt(PT_linear/M) * ones(M, 1);
             
             signal_power_direct = abs(h_d * omega)^2;
             SINR_no_jam_runs(i, run) = signal_power_direct / sigma2;
@@ -760,9 +752,7 @@ function generate_and_save_figure_5(x_t, x_r, x_i, y_i, M, N, PT_dBm, b, A, ...
             
             % omega_base = (randn(M, 1) + 1j*randn(M, 1));
             % omega = sqrt(PT_linear) * omega_base / norm(omega_base);
-            
-            % omega = sqrt(PT_linear/M) * ones(M, 1);
-            
+                        
             signal_power_direct = abs(h_d * omega)^2;
             SINR_no_jam_runs(i, run) = signal_power_direct / sigma2;
             
