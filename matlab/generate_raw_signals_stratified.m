@@ -9,6 +9,10 @@ clear all; close all; clc;
 %% Configurations
 CONFIG = struct();
 
+% NOTE the output directory, make sure you don't override pre-generated signals, 
+% for now we ouput to 'signals_output' folder within 'matlab'
+CONFIG.OUTPUT_DIR = 'signals_output';
+
 CONFIG.USE_STRATIFICATION = true;
 CONFIG.INCLUDE_ACTIVE_JAMMING = true;
 CONFIG.RANDOMISE_POSITIONS = true;
@@ -47,7 +51,7 @@ CONFIG.PT_dBm = 30;
 CONFIG.sigma2_dBm = -60;
 CONFIG.b = 5;
 
-% Optimisation settings (single bcd iteration for computational efficiency)
+% Optimisation settings (single bcd iteration used for computational efficiency)
 CONFIG.USE_BCD_ITERATIONS = false;
 CONFIG.SDR_RANDOMISATION_TRIALS = 1000;
 CONFIG.BCD_MAX_ITERATIONS = 20;
@@ -55,8 +59,6 @@ CONFIG.BCD_CONVERGENCE_THRESHOLD = 1e-3;
 
 % Control parameters
 CONFIG.MAX_ATTEMPTS_PER_BAND = 10000;
-
-CONFIG.OUTPUT_DIR = 'signals';
 CONFIG.RANDOM_SEED = 42;
 % CONFIG.RANDOM_SEED = 123; % Seed used for seperate testing set
 
@@ -68,9 +70,9 @@ if CONFIG.USE_STRATIFICATION
     CONFIG.TOTAL_RIS_TARGET = CONFIG.SAMPLES_PER_EFFECTIVENESS_BAND * length(CONFIG.BAND_NAMES);
     CONFIG.TOTAL_ACTIVE_TARGET = CONFIG.ACTIVE_JAMMING_SAMPLES_PER_BAND * length(CONFIG.BAND_NAMES);
 else
-    CONFIG.NO_JAMMING_SAMPLES = 250;
-    CONFIG.RIS_JAMMING_SAMPLES = 250;
-    CONFIG.ACTIVE_JAMMING_SAMPLES = 250;
+    CONFIG.NO_JAMMING_SAMPLES = 1000;
+    CONFIG.RIS_JAMMING_SAMPLES = 1000;
+    CONFIG.ACTIVE_JAMMING_SAMPLES = 1000;
 end
 
 %% Initialisation

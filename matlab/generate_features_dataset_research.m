@@ -1,19 +1,18 @@
 function generate_features_dataset_research(raw_signals_file)
     % Compatible with generate_raw_signals_stratified.m output
     % Calls extract_features_research.m for feature extraction
-    
+    close all;
+
     if nargin < 1
         % training dataset file
-        raw_signals_file = 'signals/raw_signals.mat';
+        % raw_signals_file = 'signals/raw_signals_stratified_seed42_train.mat';
 
-        % test datasets
-        % raw_signals_file = 'signals_test/raw_signals_stratified_seed123_stealthy_test.mat';
+        % For example generating test dataset:
+        raw_signals_file = 'signals/raw_signals_stratified_seed123_stealthy_test.mat';
         if ~exist(raw_signals_file, 'file')
             error('Raw signals file not found. Check file path or generate raw signals first via generate_raw_signals_stratified.m');
         end
     end
-    
-    close all;
     
     fprintf('DATASET GENERATOR \n');
     fprintf('Loading raw signals: %s\n', raw_signals_file);
@@ -23,13 +22,13 @@ function generate_features_dataset_research(raw_signals_file)
     end
     
     load(raw_signals_file, 'raw_dataset');
-
-
-    output_dir = 'datasets/';
+    % NOTE the output directory, for now output to 'dataset_output' folder within matlab folder so it doesn't override pre-generated dataset
+    output_dir = 'dataset_output/';
     if ~exist(output_dir, 'dir')
         mkdir(output_dir);
     end
-    
+
+    % Can edit file name
     csv_filename = fullfile(output_dir, 'jamming_features_research.csv');
     
     signals = raw_dataset.signals;
@@ -360,13 +359,6 @@ function generate_features_dataset_research(raw_signals_file)
         count = sum(strcmp(band_name_array, unique_bands{i}));
         fprintf('  %s: %d samples (%.1f%%)\n', unique_bands{i}, count, 100*count/n_samples);
     end
-    
-    % [input_dir, ~, ~] = fileparts(raw_signals_file);
-    % if isempty(input_dir)
-    %     output_dir = CONFIG.OUTPUT_DIR;
-    % else
-    %     output_dir = input_dir;
-    % end
     
     if size(labels, 2) > size(labels, 1)
         labels = labels';

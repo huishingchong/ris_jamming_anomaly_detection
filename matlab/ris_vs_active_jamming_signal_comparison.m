@@ -97,6 +97,7 @@ fprintf('\nNormal Communication:\n');
 fprintf('  SNR: %.1f dB\n', baseline_snr_db);
 fprintf('  Direct-link signal power (pre-noise): %.1f dBm\n', 10*log10(direct_link_signal_power*1000));
 
+fprintf('\nNote: Depending on hardware, might take a while to get matching ris and active jamming signals for fair comparison.\n');
 %% Scenario 2: RIS Jamming
 fprintf('\nGenerating RIS jamming (target: %.1f-%.1f dB effectiveness)...\n', ris_effectiveness_target(1), ris_effectiveness_target(2));
 
