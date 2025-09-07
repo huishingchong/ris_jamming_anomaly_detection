@@ -7,7 +7,7 @@
 clear; close all;
 
 % Load dataset
-dataset_file = 'signals/raw_signals.mat';
+dataset_file = 'signals/raw_signals_stratified_seed42_train.mat';
 load(dataset_file, 'raw_dataset');
 
 fprintf('DISTRIBUTION ANALYSIS FROM .MAT\n');
