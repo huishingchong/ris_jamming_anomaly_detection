@@ -1,0 +1,794 @@
+{
+  "threshold_mode": "stealthy",
+  "threshold": 0.23529411764705882,
+  "champion_name": "gradient_boosting",
+  "model_type": "supervised",
+  "n_features": 7,
+  "final_features": [
+    "std_magnitude",
+    "received_power",
+    "peak_to_avg_ratio",
+    "spectral_flatness",
+    "amplitude_kurtosis",
+    "spectral_bandwidth",
+    "spectral_rolloff"
+  ],
+  "datasets_evaluated": [
+    "jamming_features_research_stealthy_test",
+    "jamming_features_research_moderate_test",
+    "jamming_features_research_severe_test",
+    "jamming_features_research_critical_test",
+    "jamming_features_research_ultra_stealthy_test",
+    "jamming_features_research_ultra_strong_test"
+  ],
+  "evaluation_results": [
+    {
+      "dataset_name": "jamming_features_research_stealthy_test",
+      "n_samples": 400,
+      "class_distribution": {
+        "normal": 200,
+        "ris": 200
+      },
+      "features_used": [
+        "std_magnitude",
+        "received_power",
+        "peak_to_avg_ratio",
+        "spectral_flatness",
+        "amplitude_kurtosis",
+        "spectral_bandwidth",
+        "spectral_rolloff"
+      ],
+      "performance": {
+        "threshold_used": 0.23529411764705882,
+        "threshold_mode": "stealthy",
+        "confusion_matrix": {
+          "tp": 154,
+          "fp": 32,
+          "tn": 168,
+          "fn": 46
+        },
+        "comprehensive_metrics": {
+          "accuracy": 0.805,
+          "precision": 0.8279569892473119,
+          "recall": 0.77,
+          "f1": 0.7979274611398963,
+          "fpr": 0.16,
+          "fnr": 0.23,
+          "tpr": 0.77,
+          "tnr": 0.84,
+          "sensitivity": 0.77,
+          "specificity": 0.84,
+          "balanced_accuracy": 0.8049999999999999,
+          "macro_f1": 0.8047608320192235,
+          "weighted_f1": 0.8047608320192237,
+          "roc_auc": 0.89515,
+          "pr_auc": 0.8844265592752604,
+          "f1_positive": 0.7979274611398963,
+          "f1_negative": 0.8115942028985508,
+          "precision_positive": 0.8279569892473119,
+          "precision_negative": 0.7850467289719626,
+          "recall_positive": 0.77,
+          "recall_negative": 0.84
+        },
+        "band_breakdown": {
+          "none": {
+            "fpr": 0.16,
+            "fnr": null,
+            "counts": {
+              "normal": 200,
+              "jam": 0
+            }
+          },
+          "stealthy": {
+            "fpr": null,
+            "fnr": 0.23,
+            "counts": {
+              "normal": 0,
+              "jam": 200
+            }
+          }
+        },
+        "band_none_fpr": 0.16,
+        "band_positive_fnr": 0.23,
+        "confidence_intervals": {
+          "f1": {
+            "mean": 0.7976078091122758,
+            "std": 0.023234159020643682,
+            "lower_95": 0.7513125320774086,
+            "upper_95": 0.8399027924344509
+          },
+          "fpr": {
+            "mean": 0.16013330835389916,
+            "std": 0.025618938845549916,
+            "lower_95": 0.11274509803921569,
+            "upper_95": 0.2095296167247387
+          },
+          "fnr": {
+            "mean": 0.22978650745655124,
+            "std": 0.0303530009947451,
+            "lower_95": 0.16849250936329588,
+            "upper_95": 0.29102182539682536
+          },
+          "recall": {
+            "mean": 0.7702134925434487,
+            "std": 0.0303530009947451,
+            "lower_95": 0.7089781746031746,
+            "upper_95": 0.8315074906367041
+          },
+          "precision": {
+            "mean": 0.8278573127553724,
+            "std": 0.02730432802566166,
+            "lower_95": 0.7696335078534031,
+            "upper_95": 0.878466235000176
+          },
+          "accuracy": {
+            "mean": 0.8051024999999999,
+            "std": 0.020361317338276518,
+            "lower_95": 0.765,
+            "upper_95": 0.845
+          }
+        },
+        "bootstrap_auc": {
+          "roc_auc": {
+            "mean": 0.894951016945073,
+            "std": 0.01593214324032793,
+            "lower_95": 0.8615388396810837,
+            "upper_95": 0.9246986574118123
+          },
+          "pr_auc": {
+            "mean": 0.8843191184532018,
+            "std": 0.018199994894550528,
+            "lower_95": 0.8454781103339655,
+            "upper_95": 0.9157590572598887
+          },
+          "iters": 1000,
+          "seed": 42
+        },
+        "test_latency": {
+          "median_ms_per_sample": 0.019069531408604234,
+          "n_timing_runs": 30
+        }
+      }
+    },
+    {
+      "dataset_name": "jamming_features_research_moderate_test",
+      "n_samples": 400,
+      "class_distribution": {
+        "normal": 200,
+        "ris": 200
+      },
+      "features_used": [
+        "std_magnitude",
+        "received_power",
+        "peak_to_avg_ratio",
+        "spectral_flatness",
+        "amplitude_kurtosis",
+        "spectral_bandwidth",
+        "spectral_rolloff"
+      ],
+      "performance": {
+        "threshold_used": 0.23529411764705882,
+        "threshold_mode": "stealthy",
+        "confusion_matrix": {
+          "tp": 199,
+          "fp": 32,
+          "tn": 168,
+          "fn": 1
+        },
+        "comprehensive_metrics": {
+          "accuracy": 0.9175,
+          "precision": 0.8614718614718615,
+          "recall": 0.995,
+          "f1": 0.923433874709977,
+          "fpr": 0.16,
+          "fnr": 0.005,
+          "tpr": 0.995,
+          "tnr": 0.84,
+          "sensitivity": 0.995,
+          "specificity": 0.84,
+          "balanced_accuracy": 0.9175,
+          "macro_f1": 0.9170014902005168,
+          "weighted_f1": 0.9170014902005168,
+          "roc_auc": 0.9925875000000001,
+          "pr_auc": 0.988807071500217,
+          "f1_positive": 0.9234338747099768,
+          "f1_negative": 0.9105691056910569,
+          "precision_positive": 0.8614718614718615,
+          "precision_negative": 0.9940828402366864,
+          "recall_positive": 0.995,
+          "recall_negative": 0.84
+        },
+        "band_breakdown": {
+          "moderate": {
+            "fpr": null,
+            "fnr": 0.005,
+            "counts": {
+              "normal": 0,
+              "jam": 200
+            }
+          },
+          "none": {
+            "fpr": 0.16,
+            "fnr": null,
+            "counts": {
+              "normal": 200,
+              "jam": 0
+            }
+          }
+        },
+        "band_none_fpr": 0.16,
+        "band_positive_fnr": 0.005,
+        "confidence_intervals": {
+          "f1": {
+            "mean": 0.9232939943285118,
+            "std": 0.012829191431557646,
+            "lower_95": 0.8962264150943396,
+            "upper_95": 0.9473803556510324
+          },
+          "fpr": {
+            "mean": 0.16013330835389916,
+            "std": 0.025618938845549916,
+            "lower_95": 0.11274509803921569,
+            "upper_95": 0.2095296167247387
+          },
+          "fnr": {
+            "mean": 0.0048914853166550365,
+            "std": 0.005099315569117761,
+            "lower_95": 0.0,
+            "upper_95": 0.01579156223893066
+          },
+          "recall": {
+            "mean": 0.995108514683345,
+            "std": 0.00509931556911776,
+            "lower_95": 0.9842084377610693,
+            "upper_95": 1.0
+          },
+          "precision": {
+            "mean": 0.8614228129246676,
+            "std": 0.0220258925260957,
+            "lower_95": 0.8151182695300342,
+            "upper_95": 0.9033963585434174
+          },
+          "accuracy": {
+            "mean": 0.9175,
+            "std": 0.01335056178593246,
+            "lower_95": 0.8899375,
+            "upper_95": 0.9425625
+          }
+        },
+        "bootstrap_auc": {
+          "roc_auc": {
+            "mean": 0.9925967692488683,
+            "std": 0.0023724210683860473,
+            "lower_95": 0.9876228860773257,
+            "upper_95": 0.9966719264427236
+          },
+          "pr_auc": {
+            "mean": 0.9888117519008929,
+            "std": 0.003394191947226865,
+            "lower_95": 0.9816330625873482,
+            "upper_95": 0.9946617744455378
+          },
+          "iters": 1000,
+          "seed": 42
+        },
+        "test_latency": {
+          "median_ms_per_sample": 0.01695760351140052,
+          "n_timing_runs": 30
+        }
+      }
+    },
+    {
+      "dataset_name": "jamming_features_research_severe_test",
+      "n_samples": 400,
+      "class_distribution": {
+        "normal": 200,
+        "ris": 200
+      },
+      "features_used": [
+        "std_magnitude",
+        "received_power",
+        "peak_to_avg_ratio",
+        "spectral_flatness",
+        "amplitude_kurtosis",
+        "spectral_bandwidth",
+        "spectral_rolloff"
+      ],
+      "performance": {
+        "threshold_used": 0.23529411764705882,
+        "threshold_mode": "stealthy",
+        "confusion_matrix": {
+          "tp": 200,
+          "fp": 32,
+          "tn": 168,
+          "fn": 0
+        },
+        "comprehensive_metrics": {
+          "accuracy": 0.92,
+          "precision": 0.8620689655172413,
+          "recall": 1.0,
+          "f1": 0.9259259259259259,
+          "fpr": 0.16,
+          "fnr": 0.0,
+          "tpr": 1.0,
+          "tnr": 0.84,
+          "sensitivity": 1.0,
+          "specificity": 0.84,
+          "balanced_accuracy": 0.9199999999999999,
+          "macro_f1": 0.9194847020933977,
+          "weighted_f1": 0.9194847020933977,
+          "roc_auc": 0.998775,
+          "pr_auc": 0.9976328502415459,
+          "f1_positive": 0.9259259259259259,
+          "f1_negative": 0.9130434782608695,
+          "precision_positive": 0.8620689655172413,
+          "precision_negative": 1.0,
+          "recall_positive": 1.0,
+          "recall_negative": 0.84
+        },
+        "band_breakdown": {
+          "none": {
+            "fpr": 0.16,
+            "fnr": null,
+            "counts": {
+              "normal": 200,
+              "jam": 0
+            }
+          },
+          "severe": {
+            "fpr": null,
+            "fnr": 0.0,
+            "counts": {
+              "normal": 0,
+              "jam": 200
+            }
+          }
+        },
+        "band_none_fpr": 0.16,
+        "band_positive_fnr": 0.0,
+        "confidence_intervals": {
+          "f1": {
+            "mean": 0.9257377060768657,
+            "std": 0.012720822645902076,
+            "lower_95": 0.8981434240362812,
+            "upper_95": 0.9493316929749568
+          },
+          "fpr": {
+            "mean": 0.16013330835389916,
+            "std": 0.025618938845549916,
+            "lower_95": 0.11274509803921569,
+            "upper_95": 0.2095296167247387
+          },
+          "fnr": {
+            "mean": 0.0,
+            "std": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          },
+          "recall": {
+            "mean": 1.0,
+            "std": 0.0,
+            "lower_95": 1.0,
+            "upper_95": 1.0
+          },
+          "precision": {
+            "mean": 0.8620028931941937,
+            "std": 0.021975100677654843,
+            "lower_95": 0.8151182695300342,
+            "upper_95": 0.9035503629764066
+          },
+          "accuracy": {
+            "mean": 0.9199475,
+            "std": 0.013270399155639595,
+            "lower_95": 0.8925,
+            "upper_95": 0.945
+          }
+        },
+        "bootstrap_auc": {
+          "roc_auc": {
+            "mean": 0.998777996728535,
+            "std": 0.0005555700961157119,
+            "lower_95": 0.997524933482248,
+            "upper_95": 0.9996490660397865
+          },
+          "pr_auc": {
+            "mean": 0.997642163081482,
+            "std": 0.0010627391215868455,
+            "lower_95": 0.9953785870164698,
+            "upper_95": 0.9993632025112564
+          },
+          "iters": 1000,
+          "seed": 42
+        },
+        "test_latency": {
+          "median_ms_per_sample": 0.0152073975186795,
+          "n_timing_runs": 30
+        }
+      }
+    },
+    {
+      "dataset_name": "jamming_features_research_critical_test",
+      "n_samples": 400,
+      "class_distribution": {
+        "normal": 200,
+        "ris": 200
+      },
+      "features_used": [
+        "std_magnitude",
+        "received_power",
+        "peak_to_avg_ratio",
+        "spectral_flatness",
+        "amplitude_kurtosis",
+        "spectral_bandwidth",
+        "spectral_rolloff"
+      ],
+      "performance": {
+        "threshold_used": 0.23529411764705882,
+        "threshold_mode": "stealthy",
+        "confusion_matrix": {
+          "tp": 200,
+          "fp": 32,
+          "tn": 168,
+          "fn": 0
+        },
+        "comprehensive_metrics": {
+          "accuracy": 0.92,
+          "precision": 0.8620689655172413,
+          "recall": 1.0,
+          "f1": 0.9259259259259259,
+          "fpr": 0.16,
+          "fnr": 0.0,
+          "tpr": 1.0,
+          "tnr": 0.84,
+          "sensitivity": 1.0,
+          "specificity": 0.84,
+          "balanced_accuracy": 0.9199999999999999,
+          "macro_f1": 0.9194847020933977,
+          "weighted_f1": 0.9194847020933977,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "f1_positive": 0.9259259259259259,
+          "f1_negative": 0.9130434782608695,
+          "precision_positive": 0.8620689655172413,
+          "precision_negative": 1.0,
+          "recall_positive": 1.0,
+          "recall_negative": 0.84
+        },
+        "band_breakdown": {
+          "critical": {
+            "fpr": null,
+            "fnr": 0.0,
+            "counts": {
+              "normal": 0,
+              "jam": 200
+            }
+          },
+          "none": {
+            "fpr": 0.16,
+            "fnr": null,
+            "counts": {
+              "normal": 200,
+              "jam": 0
+            }
+          }
+        },
+        "band_none_fpr": 0.16,
+        "band_positive_fnr": 0.0,
+        "confidence_intervals": {
+          "f1": {
+            "mean": 0.9257377060768657,
+            "std": 0.012720822645902076,
+            "lower_95": 0.8981434240362812,
+            "upper_95": 0.9493316929749568
+          },
+          "fpr": {
+            "mean": 0.16013330835389916,
+            "std": 0.025618938845549916,
+            "lower_95": 0.11274509803921569,
+            "upper_95": 0.2095296167247387
+          },
+          "fnr": {
+            "mean": 0.0,
+            "std": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          },
+          "recall": {
+            "mean": 1.0,
+            "std": 0.0,
+            "lower_95": 1.0,
+            "upper_95": 1.0
+          },
+          "precision": {
+            "mean": 0.8620028931941937,
+            "std": 0.021975100677654843,
+            "lower_95": 0.8151182695300342,
+            "upper_95": 0.9035503629764066
+          },
+          "accuracy": {
+            "mean": 0.9199475,
+            "std": 0.013270399155639595,
+            "lower_95": 0.8925,
+            "upper_95": 0.945
+          }
+        },
+        "bootstrap_auc": {
+          "roc_auc": {
+            "mean": 1.0,
+            "std": 2.810072162377309e-17,
+            "lower_95": 0.9999999999999999,
+            "upper_95": 1.0
+          },
+          "pr_auc": {
+            "mean": 1.0,
+            "std": 0.0,
+            "lower_95": 1.0,
+            "upper_95": 1.0
+          },
+          "iters": 1000,
+          "seed": 42
+        },
+        "test_latency": {
+          "median_ms_per_sample": 0.012976562429685146,
+          "n_timing_runs": 30
+        }
+      }
+    },
+    {
+      "dataset_name": "jamming_features_research_ultra_stealthy_test",
+      "n_samples": 400,
+      "class_distribution": {
+        "normal": 200,
+        "ris": 200
+      },
+      "features_used": [
+        "std_magnitude",
+        "received_power",
+        "peak_to_avg_ratio",
+        "spectral_flatness",
+        "amplitude_kurtosis",
+        "spectral_bandwidth",
+        "spectral_rolloff"
+      ],
+      "performance": {
+        "threshold_used": 0.23529411764705882,
+        "threshold_mode": "stealthy",
+        "confusion_matrix": {
+          "tp": 82,
+          "fp": 34,
+          "tn": 166,
+          "fn": 118
+        },
+        "comprehensive_metrics": {
+          "accuracy": 0.62,
+          "precision": 0.7068965517241379,
+          "recall": 0.41,
+          "f1": 0.5189873417721519,
+          "fpr": 0.17,
+          "fnr": 0.59,
+          "tpr": 0.41,
+          "tnr": 0.83,
+          "sensitivity": 0.41,
+          "specificity": 0.83,
+          "balanced_accuracy": 0.62,
+          "macro_f1": 0.6024688774976462,
+          "weighted_f1": 0.6024688774976462,
+          "roc_auc": 0.7310875,
+          "pr_auc": 0.6897884459418963,
+          "f1_positive": 0.5189873417721519,
+          "f1_negative": 0.6859504132231405,
+          "precision_positive": 0.7068965517241379,
+          "precision_negative": 0.5845070422535211,
+          "recall_positive": 0.41,
+          "recall_negative": 0.83
+        },
+        "band_breakdown": {
+          "none": {
+            "fpr": 0.17,
+            "fnr": null,
+            "counts": {
+              "normal": 200,
+              "jam": 0
+            }
+          },
+          "ultra_stealthy": {
+            "fpr": null,
+            "fnr": 0.59,
+            "counts": {
+              "normal": 0,
+              "jam": 200
+            }
+          }
+        },
+        "band_none_fpr": 0.17,
+        "band_positive_fnr": 0.59,
+        "confidence_intervals": {
+          "f1": {
+            "mean": 0.5196502246046576,
+            "std": 0.03608486612713432,
+            "lower_95": 0.44673367697594496,
+            "upper_95": 0.5882615546218487
+          },
+          "fpr": {
+            "mean": 0.16934470756690775,
+            "std": 0.02636673897143061,
+            "lower_95": 0.11794871794871795,
+            "upper_95": 0.22114660982638307
+          },
+          "fnr": {
+            "mean": 0.5886053952585504,
+            "std": 0.03660603562326538,
+            "lower_95": 0.5151403743315508,
+            "upper_95": 0.6580437255149754
+          },
+          "recall": {
+            "mean": 0.4113946047414496,
+            "std": 0.03660603562326538,
+            "lower_95": 0.34195627448502464,
+            "upper_95": 0.4848596256684492
+          },
+          "precision": {
+            "mean": 0.7081710822892167,
+            "std": 0.04300201808923476,
+            "lower_95": 0.6239035087719298,
+            "upper_95": 0.787657196087564
+          },
+          "accuracy": {
+            "mean": 0.6210600000000001,
+            "std": 0.02497626673464231,
+            "lower_95": 0.5725,
+            "upper_95": 0.67
+          }
+        },
+        "bootstrap_auc": {
+          "roc_auc": {
+            "mean": 0.7325024533748167,
+            "std": 0.02466307690435609,
+            "lower_95": 0.6854982508205765,
+            "upper_95": 0.7789521794842864
+          },
+          "pr_auc": {
+            "mean": 0.6921869172422082,
+            "std": 0.03282806894473404,
+            "lower_95": 0.6286546397482724,
+            "upper_95": 0.7536792054315296
+          },
+          "iters": 1000,
+          "seed": 42
+        },
+        "test_latency": {
+          "median_ms_per_sample": 0.019121769873891026,
+          "n_timing_runs": 30
+        }
+      }
+    },
+    {
+      "dataset_name": "jamming_features_research_ultra_strong_test",
+      "n_samples": 400,
+      "class_distribution": {
+        "normal": 200,
+        "ris": 200
+      },
+      "features_used": [
+        "std_magnitude",
+        "received_power",
+        "peak_to_avg_ratio",
+        "spectral_flatness",
+        "amplitude_kurtosis",
+        "spectral_bandwidth",
+        "spectral_rolloff"
+      ],
+      "performance": {
+        "threshold_used": 0.23529411764705882,
+        "threshold_mode": "stealthy",
+        "confusion_matrix": {
+          "tp": 200,
+          "fp": 32,
+          "tn": 168,
+          "fn": 0
+        },
+        "comprehensive_metrics": {
+          "accuracy": 0.92,
+          "precision": 0.8620689655172413,
+          "recall": 1.0,
+          "f1": 0.9259259259259259,
+          "fpr": 0.16,
+          "fnr": 0.0,
+          "tpr": 1.0,
+          "tnr": 0.84,
+          "sensitivity": 1.0,
+          "specificity": 0.84,
+          "balanced_accuracy": 0.9199999999999999,
+          "macro_f1": 0.9194847020933977,
+          "weighted_f1": 0.9194847020933977,
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "f1_positive": 0.9259259259259259,
+          "f1_negative": 0.9130434782608695,
+          "precision_positive": 0.8620689655172413,
+          "precision_negative": 1.0,
+          "recall_positive": 1.0,
+          "recall_negative": 0.84
+        },
+        "band_breakdown": {
+          "none": {
+            "fpr": 0.16,
+            "fnr": null,
+            "counts": {
+              "normal": 200,
+              "jam": 0
+            }
+          },
+          "ultra_strong": {
+            "fpr": null,
+            "fnr": 0.0,
+            "counts": {
+              "normal": 0,
+              "jam": 200
+            }
+          }
+        },
+        "band_none_fpr": 0.16,
+        "band_positive_fnr": 0.0,
+        "confidence_intervals": {
+          "f1": {
+            "mean": 0.9257377060768657,
+            "std": 0.012720822645902076,
+            "lower_95": 0.8981434240362812,
+            "upper_95": 0.9493316929749568
+          },
+          "fpr": {
+            "mean": 0.16013330835389916,
+            "std": 0.025618938845549916,
+            "lower_95": 0.11274509803921569,
+            "upper_95": 0.2095296167247387
+          },
+          "fnr": {
+            "mean": 0.0,
+            "std": 0.0,
+            "lower_95": 0.0,
+            "upper_95": 0.0
+          },
+          "recall": {
+            "mean": 1.0,
+            "std": 0.0,
+            "lower_95": 1.0,
+            "upper_95": 1.0
+          },
+          "precision": {
+            "mean": 0.8620028931941937,
+            "std": 0.021975100677654843,
+            "lower_95": 0.8151182695300342,
+            "upper_95": 0.9035503629764066
+          },
+          "accuracy": {
+            "mean": 0.9199475,
+            "std": 0.013270399155639595,
+            "lower_95": 0.8925,
+            "upper_95": 0.945
+          }
+        },
+        "bootstrap_auc": {
+          "roc_auc": {
+            "mean": 1.0,
+            "std": 2.810072162377309e-17,
+            "lower_95": 0.9999999999999999,
+            "upper_95": 1.0
+          },
+          "pr_auc": {
+            "mean": 1.0,
+            "std": 0.0,
+            "lower_95": 1.0,
+            "upper_95": 1.0
+          },
+          "iters": 1000,
+          "seed": 42
+        },
+        "test_latency": {
+          "median_ms_per_sample": 0.012952707475051284,
+          "n_timing_runs": 30
+        }
+      }
+    }
+  ]
+}

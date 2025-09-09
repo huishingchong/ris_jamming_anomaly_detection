@@ -1,0 +1,26 @@
+{
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    999
+  ],
+  "modes": [
+    "standard",
+    "stealthy"
+  ],
+  "bands_present": [
+    "ultra-stealthy",
+    "stealthy",
+    "moderate",
+    "severe",
+    "critical",
+    "ultra-strong"
+  ],
+  "rows": 60,
+  "by_mode_counts": {
+    "standard": 30,
+    "stealthy": 30
+  }
+}

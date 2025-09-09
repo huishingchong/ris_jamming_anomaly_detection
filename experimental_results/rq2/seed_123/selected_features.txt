@@ -1,0 +1,7 @@
+std_magnitude
+received_power
+peak_to_avg_ratio
+spectral_flatness
+amplitude_kurtosis
+spectral_bandwidth
+spectral_rolloff

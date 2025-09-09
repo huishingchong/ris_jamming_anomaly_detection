@@ -1,0 +1,11 @@
+mode,seed,n_rows,bands_found,missing_bands,duplicate_bands
+standard,42,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+standard,123,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+standard,456,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+standard,789,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+standard,999,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+stealthy,42,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+stealthy,123,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+stealthy,456,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+stealthy,789,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
+stealthy,999,6,ultra-stealthy;stealthy;moderate;severe;critical;ultra-strong,,
