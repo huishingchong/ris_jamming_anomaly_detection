@@ -1,0 +1,402 @@
+{
+  "seed": 42,
+  "final_features": [
+    "std_magnitude",
+    "received_power",
+    "peak_to_avg_ratio",
+    "spectral_flatness",
+    "amplitude_kurtosis",
+    "spectral_bandwidth",
+    "spectral_rolloff"
+  ],
+  "n_features": 7,
+  "champion_name": "gradient_boosting",
+  "test_results": {
+    "standard": {
+      "test_metrics": {
+        "accuracy": 0.9975,
+        "precision": 1.0,
+        "recall": 0.995,
+        "f1": 0.9974937343358395,
+        "fpr": 0.0,
+        "fnr": 0.005,
+        "tpr": 0.995,
+        "tnr": 1.0,
+        "sensitivity": 0.995,
+        "specificity": 1.0,
+        "balanced_accuracy": 0.9975,
+        "macro_f1": 0.9974999843749024,
+        "weighted_f1": 0.9974999843749024,
+        "roc_auc": 0.9974750000000001,
+        "pr_auc": 0.9975,
+        "f1_positive": 0.9974937343358395,
+        "f1_negative": 0.9975062344139651,
+        "precision_positive": 1.0,
+        "precision_negative": 0.9950248756218906,
+        "recall_positive": 0.995,
+        "recall_negative": 1.0
+      },
+      "test_band_analysis": {
+        "critical": {
+          "misclassified": 0,
+          "total_samples": 50,
+          "error_rate": 0.0
+        },
+        "moderate": {
+          "misclassified": 0,
+          "total_samples": 50,
+          "error_rate": 0.0
+        },
+        "none": {
+          "misclassified": 0,
+          "total_samples": 200,
+          "error_rate": 0.0
+        },
+        "severe": {
+          "misclassified": 0,
+          "total_samples": 50,
+          "error_rate": 0.0
+        },
+        "stealthy": {
+          "misclassified": 1,
+          "total_samples": 50,
+          "error_rate": 0.02
+        }
+      },
+      "threshold": 1.0,
+      "policy_target": 0.1,
+      "bootstrap_ci": {
+        "f1": {
+          "mean": 0.9974387163030292,
+          "std": 0.0026100142527530888,
+          "lower_95": 0.9918676912796525,
+          "upper_95": 1.0
+        },
+        "fpr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "lower_95": 0.0,
+          "upper_95": 0.0
+        },
+        "fnr": {
+          "mean": 0.005095997754857492,
+          "std": 0.005179064609871354,
+          "lower_95": 0.0,
+          "upper_95": 0.016133415147265073
+        },
+        "recall": {
+          "mean": 0.9949040022451424,
+          "std": 0.005179064609871354,
+          "lower_95": 0.9838665848527349,
+          "upper_95": 1.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0,
+          "lower_95": 1.0,
+          "upper_95": 1.0
+        },
+        "accuracy": {
+          "mean": 0.9974525000000001,
+          "std": 0.002589207166296272,
+          "lower_95": 0.9925,
+          "upper_95": 1.0
+        }
+      }
+    },
+    "stealthy": {
+      "test_metrics": {
+        "accuracy": 0.9975,
+        "precision": 1.0,
+        "recall": 0.995,
+        "f1": 0.9974937343358395,
+        "fpr": 0.0,
+        "fnr": 0.005,
+        "tpr": 0.995,
+        "tnr": 1.0,
+        "sensitivity": 0.995,
+        "specificity": 1.0,
+        "balanced_accuracy": 0.9975,
+        "macro_f1": 0.9974999843749024,
+        "weighted_f1": 0.9974999843749024,
+        "roc_auc": 0.9974750000000001,
+        "pr_auc": 0.9975,
+        "f1_positive": 0.9974937343358395,
+        "f1_negative": 0.9975062344139651,
+        "precision_positive": 1.0,
+        "precision_negative": 0.9950248756218906,
+        "recall_positive": 0.995,
+        "recall_negative": 1.0
+      },
+      "test_band_analysis": {
+        "critical": {
+          "misclassified": 0,
+          "total_samples": 50,
+          "error_rate": 0.0
+        },
+        "moderate": {
+          "misclassified": 0,
+          "total_samples": 50,
+          "error_rate": 0.0
+        },
+        "none": {
+          "misclassified": 0,
+          "total_samples": 200,
+          "error_rate": 0.0
+        },
+        "severe": {
+          "misclassified": 0,
+          "total_samples": 50,
+          "error_rate": 0.0
+        },
+        "stealthy": {
+          "misclassified": 1,
+          "total_samples": 50,
+          "error_rate": 0.02
+        }
+      },
+      "threshold": 1.0,
+      "policy_target": 0.1,
+      "bootstrap_ci": {
+        "f1": {
+          "mean": 0.9975310701090866,
+          "std": 0.0024728813608008507,
+          "lower_95": 0.9920413793103448,
+          "upper_95": 1.0
+        },
+        "fpr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "lower_95": 0.0,
+          "upper_95": 0.0
+        },
+        "fnr": {
+          "mean": 0.004913586089708349,
+          "std": 0.004910247160494938,
+          "lower_95": 0.0,
+          "upper_95": 0.01579156223893066
+        },
+        "recall": {
+          "mean": 0.9950864139102916,
+          "std": 0.004910247160494937,
+          "lower_95": 0.9842084377610693,
+          "upper_95": 1.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0,
+          "lower_95": 1.0,
+          "upper_95": 1.0
+        },
+        "accuracy": {
+          "mean": 0.9975450000000001,
+          "std": 0.002451627010782835,
+          "lower_95": 0.9925,
+          "upper_95": 1.0
+        }
+      }
+    },
+    "calibration_audit": {
+      "test_ece": 0.006789464015918997,
+      "test_brier": 0.006238104593667075
+    },
+    "drift_analysis": {
+      "standard": {
+        "val_to_test_fpr_drift": 0.0
+      },
+      "stealthy": {
+        "val_to_test_fnr_drift": 0.005
+      }
+    }
+  },
+  "feature_importance": {
+    "spectral_flatness": 0.8743954637792882,
+    "std_magnitude": 0.08661106058198746,
+    "received_power": 0.037010928184854824,
+    "spectral_rolloff": 0.0019264482147482906,
+    "amplitude_kurtosis": 4.9303937848774036e-05,
+    "peak_to_avg_ratio": 6.795301272362757e-06,
+    "spectral_bandwidth": 0.0
+  },
+  "model_comparison": {
+    "logistic_regression": {
+      "thresholds": {
+        "standard": {
+          "threshold": 0.3333333333333333,
+          "val_fpr": 0.006666666666666667,
+          "val_fnr": 0.02
+        },
+        "stealthy": {
+          "threshold": 1.0,
+          "val_fnr": 0.02666666666666667,
+          "val_fpr": 0.0
+        }
+      },
+      "val_metrics": {
+        "accuracy": 0.9866666666666667,
+        "precision": 0.9932432432432432,
+        "recall": 0.98,
+        "f1": 0.9865771812080537,
+        "fpr": 0.006666666666666667,
+        "fnr": 0.02,
+        "tpr": 0.98,
+        "tnr": 0.9933333333333333,
+        "sensitivity": 0.98,
+        "specificity": 0.9933333333333333,
+        "balanced_accuracy": 0.9866666666666666,
+        "macro_f1": 0.9866660740477355,
+        "weighted_f1": 0.9866660740477353,
+        "roc_auc": 0.9899333333333332,
+        "pr_auc": 0.99,
+        "f1_positive": 0.9865771812080537,
+        "f1_negative": 0.9867549668874173,
+        "precision_positive": 0.9932432432432432,
+        "precision_negative": 0.9802631578947368,
+        "recall_positive": 0.98,
+        "recall_negative": 0.9933333333333333
+      },
+      "calibration_audit": {
+        "method": "isotonic",
+        "val_ece": 0.012018449140324643,
+        "val_brier": 0.010617349060147498
+      },
+      "latency_ms": 0.0014685416438927252
+    },
+    "svm": {
+      "thresholds": {
+        "standard": {
+          "threshold": 0.25339697263094335,
+          "val_fpr": 0.006666666666666667,
+          "val_fnr": 0.006666666666666667
+        },
+        "stealthy": {
+          "threshold": 1.0,
+          "val_fnr": 0.03333333333333333,
+          "val_fpr": 0.0
+        }
+      },
+      "val_metrics": {
+        "accuracy": 0.9933333333333333,
+        "precision": 0.9933333333333333,
+        "recall": 0.9933333333333333,
+        "f1": 0.9933333333333333,
+        "fpr": 0.006666666666666667,
+        "fnr": 0.006666666666666667,
+        "tpr": 0.9933333333333333,
+        "tnr": 0.9933333333333333,
+        "sensitivity": 0.9933333333333333,
+        "specificity": 0.9933333333333333,
+        "balanced_accuracy": 0.9933333333333333,
+        "macro_f1": 0.9933333333333333,
+        "weighted_f1": 0.9933333333333333,
+        "roc_auc": 0.9966444444444443,
+        "pr_auc": 0.9966666666666666,
+        "f1_positive": 0.9933333333333333,
+        "f1_negative": 0.9933333333333333,
+        "precision_positive": 0.9933333333333333,
+        "precision_negative": 0.9933333333333333,
+        "recall_positive": 0.9933333333333333,
+        "recall_negative": 0.9933333333333333
+      },
+      "calibration_audit": {
+        "method": "isotonic",
+        "val_ece": 0.009823834185198192,
+        "val_brier": 0.00603776752746282
+      },
+      "latency_ms": 0.020312151561180748
+    },
+    "random_forest": {
+      "thresholds": {
+        "standard": {
+          "threshold": 0.2,
+          "val_fpr": 0.02,
+          "val_fnr": 0.0
+        },
+        "stealthy": {
+          "threshold": 1.0,
+          "val_fnr": 0.013333333333333334,
+          "val_fpr": 0.0
+        }
+      },
+      "val_metrics": {
+        "accuracy": 0.99,
+        "precision": 0.9803921568627451,
+        "recall": 1.0,
+        "f1": 0.99009900990099,
+        "fpr": 0.02,
+        "fnr": 0.0,
+        "tpr": 1.0,
+        "tnr": 0.98,
+        "sensitivity": 1.0,
+        "specificity": 0.98,
+        "balanced_accuracy": 0.99,
+        "macro_f1": 0.9899989998999901,
+        "weighted_f1": 0.98999899989999,
+        "roc_auc": 0.9998666666666667,
+        "pr_auc": 0.9997385620915032,
+        "f1_positive": 0.9900990099009901,
+        "f1_negative": 0.98989898989899,
+        "precision_positive": 0.9803921568627451,
+        "precision_negative": 1.0,
+        "recall_positive": 1.0,
+        "recall_negative": 0.98
+      },
+      "calibration_audit": {
+        "method": "isotonic",
+        "val_ece": 0.0033333333333333335,
+        "val_brier": 0.004666666666666668
+      },
+      "latency_ms": 0.04750097286887467
+    },
+    "gradient_boosting": {
+      "thresholds": {
+        "standard": {
+          "threshold": 1.0,
+          "val_fpr": 0.0,
+          "val_fnr": 0.0
+        },
+        "stealthy": {
+          "threshold": 1.0,
+          "val_fnr": 0.0,
+          "val_fpr": 0.0
+        }
+      },
+      "val_metrics": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fpr": 0.0,
+        "fnr": 0.0,
+        "tpr": 1.0,
+        "tnr": 1.0,
+        "sensitivity": 1.0,
+        "specificity": 1.0,
+        "balanced_accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "f1_positive": 1.0,
+        "f1_negative": 1.0,
+        "precision_positive": 1.0,
+        "precision_negative": 1.0,
+        "recall_positive": 1.0,
+        "recall_negative": 1.0
+      },
+      "calibration_audit": {
+        "method": "isotonic",
+        "val_ece": 0.0,
+        "val_brier": 0.0
+      },
+      "latency_ms": 0.0028014586617549258
+    }
+  },
+  "data_splits": {
+    "train_size": 1000,
+    "calib_size": 300,
+    "val_size": 300,
+    "test_size": 400
+  },
+  "val_latency_ms": 0.0028014586617549258
+}
