@@ -1,0 +1,1131 @@
+(base) huishingchong@MacBook-Air ris_jamming_anomaly_detection % python3 detection.py
+  --csv datasets/train_jamming_features_research.csv                                                  
+  --output experimental_results/rq2 \
+  --seeds 42 123 456 789 999 \
+  --standard-target-fpr 0.10 \
+  --standard-guard 0.02 \
+  --stealthy-target-fnr 0.10 \
+  --stealthy-guard 0.02 \
+  --stealthy-weight 2.0 \
+  --calibration-method isotonic --bootstrap-iters 1000 --enable-tuning
+2025-09-09 07:35:25,914 - INFO - Logging to file: experimental_results/rq2/supervised_detection.log
+2025-09-09 07:35:25,914 - INFO - Detection Configuration: {'standard_target_fpr': 0.1, 'standard_guard': 0.02, 'stealthy_target_fnr': 0.1, 'stealthy_guard': 0.02, 'correlation_threshold': 0.95, 'stealthy_weight': 2.0, 'enable_stealthy_weighting': True, 'calibration_method': 'isotonic', 'cv_folds': 5, 'calib_size': 0.15, 'val_size': 0.15, 'enable_tuning': True, 'tuning_strategy': 'grid', 'tuning_iter': 60, 'tuning_scoring': 'f1', 'max_iter': 2000, 'output_dir': 'experimental_results/rq2', 'stealthy_heuristic': False, 'bootstrap_iters': 1000}
+2025-09-09 07:35:25,914 - INFO - Seeds: [42, 123, 456, 789, 999]
+2025-09-09 07:35:25,935 - INFO - Loaded dataset: 3000 samples, 18 columns
+2025-09-09 07:35:25,935 - INFO - Starting detection experiment with seed 42
+2025-09-09 07:35:25,936 - INFO - Set random seeds to 42
+2025-09-09 07:35:25,939 - INFO - Binary dataset prepared: 2000 samples
+2025-09-09 07:35:25,940 - INFO - Class distribution: {0: 1000, 1: 1000}
+2025-09-09 07:35:25,956 - INFO - Final features after domain-informed pruning (7): ['std_magnitude', 'received_power', 'peak_to_avg_ratio', 'spectral_flatness', 'amplitude_kurtosis', 'spectral_bandwidth', 'spectral_rolloff']
+2025-09-09 07:35:25,957 - INFO - Applied 2.0x weight to 125 stealthy samples
+2025-09-09 07:35:25,957 - INFO - Data splits: train=1000, calib=300, val=300, test=400
+2025-09-09 07:35:25,958 - INFO - Train band distribution: {'none': 500, 'severe': 125, 'moderate': 125, 'stealthy': 125, 'critical': 125}
+2025-09-09 07:35:25,959 - INFO - Calib band distribution: {'none': 150, 'critical': 38, 'severe': 38, 'stealthy': 37, 'moderate': 37}
+2025-09-09 07:35:25,959 - INFO - Val band distribution: {'none': 150, 'moderate': 38, 'stealthy': 38, 'critical': 37, 'severe': 37}
+2025-09-09 07:35:25,959 - INFO - Test band distribution: {'none': 200, 'stealthy': 50, 'moderate': 50, 'severe': 50, 'critical': 50}
+2025-09-09 07:35:25,959 - INFO - CHAMPION SELECTION WITH POLICY-BASED THRESHOLDS
+2025-09-09 07:35:25,959 - INFO - Training logistic_regression...
+2025-09-09 07:35:42,520 - INFO -   Best params for logistic_regression: {'classifier__C': 0.01, 'classifier__class_weight': 'balanced', 'classifier__penalty': 'l1', 'classifier__solver': 'liblinear'}
+2025-09-09 07:35:42,550 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 07:35:42,594 - INFO - Inference latency: 0.003 ms/sample (mean: 0.003, 95th percentile: 0.006)
+2025-09-09 07:35:42,595 - INFO -   logistic_regression: std_thr=0.385 (FPR=0.073, FNR=0.087) | ste_thr=0.182 (FPR=0.147, FNR=0.060) | val_f1=0.919, latency=0.00ms
+2025-09-09 07:35:42,595 - INFO - Training svm...
+2025-09-09 07:35:53,231 - INFO -   Best params for svm: {'classifier__C': 10.0, 'classifier__class_weight': 'balanced', 'classifier__gamma': 0.01, 'classifier__kernel': 'rbf'}
+2025-09-09 07:35:53,321 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 07:35:53,786 - INFO - Inference latency: 0.032 ms/sample (mean: 0.042, 95th percentile: 0.100)
+2025-09-09 07:35:53,788 - INFO -   svm: std_thr=0.364 (FPR=0.067, FNR=0.087) | ste_thr=0.250 (FPR=0.107, FNR=0.080) | val_f1=0.923, latency=0.03ms
+2025-09-09 07:35:53,789 - INFO - Training random_forest...
+2025-09-09 07:58:06,468 - INFO -   Best params for random_forest: {'classifier__class_weight': 'balanced_subsample', 'classifier__max_depth': None, 'classifier__max_features': 'sqrt', 'classifier__min_samples_leaf': 4, 'classifier__min_samples_split': 10, 'classifier__n_estimators': 800}
+2025-09-09 07:58:06,635 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 07:58:09,007 - INFO - Inference latency: 0.209 ms/sample (mean: 0.210, 95th percentile: 0.217)
+2025-09-09 07:58:09,008 - INFO -   random_forest: std_thr=0.234 (FPR=0.073, FNR=0.087) | ste_thr=0.211 (FPR=0.153, FNR=0.047) | val_f1=0.919, latency=0.21ms
+2025-09-09 07:58:09,009 - INFO - Training gradient_boosting...
+2025-09-09 08:05:20,186 - INFO -   Best params for gradient_boosting: {'classifier__learning_rate': 0.15, 'classifier__max_depth': 10, 'classifier__min_samples_split': 10, 'classifier__n_estimators': 200, 'classifier__subsample': 0.9}
+2025-09-09 08:05:20,212 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:05:20,352 - INFO - Inference latency: 0.014 ms/sample (mean: 0.014, 95th percentile: 0.017)
+2025-09-09 08:05:20,353 - INFO -   gradient_boosting: std_thr=0.571 (FPR=0.067, FNR=0.100) | ste_thr=0.333 (FPR=0.087, FNR=0.080) | val_f1=0.915, latency=0.01ms
+2025-09-09 08:05:20,353 - INFO - Selected champion: svm
+2025-09-09 08:05:20,449 - INFO - Band misclassification analysis:
+2025-09-09 08:05:20,451 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:05:20,451 - INFO -   moderate: 1.0/50.0 (0.020) [FNR]
+2025-09-09 08:05:20,451 - INFO -   none: 13.0/200.0 (0.065) [FPR]
+2025-09-09 08:05:20,451 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:05:20,451 - INFO -   stealthy: 20.0/50.0 (0.400) [FNR]
+2025-09-09 08:05:20,456 - INFO - Band misclassification analysis:
+2025-09-09 08:05:20,456 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:05:20,456 - INFO -   moderate: 1.0/50.0 (0.020) [FNR]
+2025-09-09 08:05:20,456 - INFO -   none: 16.0/200.0 (0.080) [FPR]
+2025-09-09 08:05:20,456 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:05:20,456 - INFO -   stealthy: 17.0/50.0 (0.340) [FNR]
+2025-09-09 08:05:20,457 - INFO - Standard Policy Results:
+2025-09-09 08:05:20,457 - INFO -   Threshold: 0.364
+2025-09-09 08:05:20,457 - INFO -   Test FPR: 0.0650 | Test FNR: 0.1050 (FPR drift from val: -0.0017)
+2025-09-09 08:05:20,457 - INFO -   Test F1: 0.9133
+2025-09-09 08:05:20,457 - INFO - Stealthy Policy Results:
+2025-09-09 08:05:20,457 - INFO -   Threshold: 0.250
+2025-09-09 08:05:20,457 - INFO -   Test FPR: 0.0800 | Test FNR: 0.0900 (FNR drift from val: +0.0100)
+2025-09-09 08:05:20,457 - INFO -   Test F1: 0.9146
+2025-09-09 08:05:20,457 - INFO - Calibration: ECE=0.0391, Brier=0.0616
+2025-09-09 08:05:24,393 - INFO - Results saved to: experimental_results/rq2/seed_42
+2025-09-09 08:05:24,393 - INFO - Starting detection experiment with seed 123
+2025-09-09 08:05:24,394 - INFO - Set random seeds to 123
+2025-09-09 08:05:24,399 - INFO - Binary dataset prepared: 2000 samples
+2025-09-09 08:05:24,400 - INFO - Class distribution: {0: 1000, 1: 1000}
+2025-09-09 08:05:24,417 - INFO - Final features after domain-informed pruning (7): ['std_magnitude', 'received_power', 'peak_to_avg_ratio', 'spectral_flatness', 'amplitude_kurtosis', 'spectral_bandwidth', 'spectral_rolloff']
+2025-09-09 08:05:24,419 - INFO - Applied 2.0x weight to 125 stealthy samples
+2025-09-09 08:05:24,419 - INFO - Data splits: train=1000, calib=300, val=300, test=400
+2025-09-09 08:05:24,420 - INFO - Train band distribution: {'none': 500, 'critical': 125, 'stealthy': 125, 'severe': 125, 'moderate': 125}
+2025-09-09 08:05:24,420 - INFO - Calib band distribution: {'none': 150, 'severe': 38, 'moderate': 38, 'stealthy': 37, 'critical': 37}
+2025-09-09 08:05:24,420 - INFO - Val band distribution: {'none': 150, 'critical': 38, 'stealthy': 38, 'moderate': 37, 'severe': 37}
+2025-09-09 08:05:24,420 - INFO - Test band distribution: {'none': 200, 'stealthy': 50, 'severe': 50, 'critical': 50, 'moderate': 50}
+2025-09-09 08:05:24,420 - INFO - CHAMPION SELECTION WITH POLICY-BASED THRESHOLDS
+2025-09-09 08:05:24,420 - INFO - Training logistic_regression...
+2025-09-09 08:05:27,269 - INFO -   Best params for logistic_regression: {'classifier__C': 0.1, 'classifier__class_weight': None, 'classifier__penalty': 'l1', 'classifier__solver': 'liblinear'}
+2025-09-09 08:05:27,288 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:05:27,312 - INFO - Inference latency: 0.001 ms/sample (mean: 0.002, 95th percentile: 0.003)
+2025-09-09 08:05:27,313 - INFO -   logistic_regression: std_thr=0.444 (FPR=0.020, FNR=0.093) | ste_thr=0.368 (FPR=0.100, FNR=0.067) | val_f1=0.941, latency=0.00ms
+2025-09-09 08:05:27,313 - INFO - Training svm...
+2025-09-09 08:05:35,591 - INFO -   Best params for svm: {'classifier__C': 10.0, 'classifier__class_weight': 'balanced', 'classifier__gamma': 0.01, 'classifier__kernel': 'rbf'}
+2025-09-09 08:05:35,610 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:05:35,750 - INFO - Inference latency: 0.015 ms/sample (mean: 0.015, 95th percentile: 0.015)
+2025-09-09 08:05:35,751 - INFO -   svm: std_thr=0.405 (FPR=0.027, FNR=0.093) | ste_thr=0.400 (FPR=0.093, FNR=0.067) | val_f1=0.938, latency=0.02ms
+2025-09-09 08:05:35,751 - INFO - Training random_forest...
+2025-09-09 08:23:54,750 - INFO -   Best params for random_forest: {'classifier__class_weight': 'balanced_subsample', 'classifier__max_depth': None, 'classifier__max_features': 0.5, 'classifier__min_samples_leaf': 1, 'classifier__min_samples_split': 5, 'classifier__n_estimators': 300}
+2025-09-09 08:23:54,854 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:23:55,860 - INFO - Inference latency: 0.090 ms/sample (mean: 0.088, 95th percentile: 0.092)
+2025-09-09 08:23:55,861 - INFO -   random_forest: std_thr=0.439 (FPR=0.067, FNR=0.087) | ste_thr=0.333 (FPR=0.087, FNR=0.067) | val_f1=0.923, latency=0.09ms
+2025-09-09 08:23:55,861 - INFO - Training gradient_boosting...
+2025-09-09 08:30:26,597 - INFO -   Best params for gradient_boosting: {'classifier__learning_rate': 0.2, 'classifier__max_depth': 7, 'classifier__min_samples_split': 2, 'classifier__n_estimators': 300, 'classifier__subsample': 0.8}
+2025-09-09 08:30:26,616 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:30:26,742 - INFO - Inference latency: 0.013 ms/sample (mean: 0.013, 95th percentile: 0.013)
+2025-09-09 08:30:26,742 - INFO -   gradient_boosting: std_thr=0.417 (FPR=0.067, FNR=0.093) | ste_thr=0.286 (FPR=0.133, FNR=0.067) | val_f1=0.919, latency=0.01ms
+2025-09-09 08:30:26,742 - INFO - Selected champion: logistic_regression
+2025-09-09 08:30:26,801 - INFO - Band misclassification analysis:
+2025-09-09 08:30:26,803 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:30:26,803 - INFO -   moderate: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:30:26,803 - INFO -   none: 12.0/200.0 (0.060) [FPR]
+2025-09-09 08:30:26,803 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:30:26,803 - INFO -   stealthy: 21.0/50.0 (0.420) [FNR]
+2025-09-09 08:30:26,807 - INFO - Band misclassification analysis:
+2025-09-09 08:30:26,807 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:30:26,807 - INFO -   moderate: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:30:26,808 - INFO -   none: 19.0/200.0 (0.095) [FPR]
+2025-09-09 08:30:26,808 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:30:26,808 - INFO -   stealthy: 16.0/50.0 (0.320) [FNR]
+2025-09-09 08:30:26,809 - INFO - Standard Policy Results:
+2025-09-09 08:30:26,809 - INFO -   Threshold: 0.444
+2025-09-09 08:30:26,809 - INFO -   Test FPR: 0.0600 | Test FNR: 0.1050 (FPR drift from val: +0.0400)
+2025-09-09 08:30:26,809 - INFO -   Test F1: 0.9156
+2025-09-09 08:30:26,809 - INFO - Stealthy Policy Results:
+2025-09-09 08:30:26,809 - INFO -   Threshold: 0.368
+2025-09-09 08:30:26,809 - INFO -   Test FPR: 0.0950 | Test FNR: 0.0800 (FNR drift from val: +0.0133)
+2025-09-09 08:30:26,809 - INFO -   Test F1: 0.9132
+2025-09-09 08:30:26,809 - INFO - Calibration: ECE=0.0446, Brier=0.0646
+2025-09-09 08:30:30,752 - INFO - Results saved to: experimental_results/rq2/seed_123
+2025-09-09 08:30:30,752 - INFO - Starting detection experiment with seed 456
+2025-09-09 08:30:30,752 - INFO - Set random seeds to 456
+2025-09-09 08:30:30,758 - INFO - Binary dataset prepared: 2000 samples
+2025-09-09 08:30:30,759 - INFO - Class distribution: {0: 1000, 1: 1000}
+2025-09-09 08:30:30,775 - INFO - Final features after domain-informed pruning (7): ['std_magnitude', 'received_power', 'peak_to_avg_ratio', 'spectral_flatness', 'amplitude_kurtosis', 'spectral_bandwidth', 'spectral_rolloff']
+2025-09-09 08:30:30,777 - INFO - Applied 2.0x weight to 125 stealthy samples
+2025-09-09 08:30:30,777 - INFO - Data splits: train=1000, calib=300, val=300, test=400
+2025-09-09 08:30:30,777 - INFO - Train band distribution: {'none': 500, 'stealthy': 125, 'critical': 125, 'severe': 125, 'moderate': 125}
+2025-09-09 08:30:30,778 - INFO - Calib band distribution: {'none': 150, 'stealthy': 38, 'moderate': 38, 'critical': 37, 'severe': 37}
+2025-09-09 08:30:30,778 - INFO - Val band distribution: {'none': 150, 'severe': 38, 'critical': 38, 'stealthy': 37, 'moderate': 37}
+2025-09-09 08:30:30,778 - INFO - Test band distribution: {'none': 200, 'critical': 50, 'severe': 50, 'stealthy': 50, 'moderate': 50}
+2025-09-09 08:30:30,778 - INFO - CHAMPION SELECTION WITH POLICY-BASED THRESHOLDS
+2025-09-09 08:30:30,778 - INFO - Training logistic_regression...
+2025-09-09 08:30:33,285 - INFO -   Best params for logistic_regression: {'classifier__C': 0.01, 'classifier__class_weight': 'balanced', 'classifier__penalty': 'l1', 'classifier__solver': 'liblinear'}
+2025-09-09 08:30:33,293 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:30:33,310 - INFO - Inference latency: 0.001 ms/sample (mean: 0.001, 95th percentile: 0.002)
+2025-09-09 08:30:33,311 - INFO -   logistic_regression: std_thr=0.556 (FPR=0.067, FNR=0.087) | ste_thr=0.385 (FPR=0.133, FNR=0.073) | val_f1=0.923, latency=0.00ms
+2025-09-09 08:30:33,311 - INFO - Training svm...
+2025-09-09 08:30:38,231 - INFO -   Best params for svm: {'classifier__C': 10.0, 'classifier__class_weight': 'balanced', 'classifier__gamma': 1.0, 'classifier__kernel': 'rbf'}
+2025-09-09 08:30:38,248 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:30:38,387 - INFO - Inference latency: 0.015 ms/sample (mean: 0.015, 95th percentile: 0.015)
+2025-09-09 08:30:38,387 - INFO -   svm: std_thr=0.935 (FPR=0.027, FNR=0.120) | ste_thr=0.284 (FPR=0.100, FNR=0.080) | val_f1=0.923, latency=0.01ms
+2025-09-09 08:30:38,387 - INFO - Training random_forest...
+2025-09-09 08:39:11,933 - INFO -   Best params for random_forest: {'classifier__class_weight': 'balanced_subsample', 'classifier__max_depth': None, 'classifier__max_features': 0.5, 'classifier__min_samples_leaf': 4, 'classifier__min_samples_split': 2, 'classifier__n_estimators': 200}
+2025-09-09 08:39:11,994 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:39:12,525 - INFO - Inference latency: 0.042 ms/sample (mean: 0.044, 95th percentile: 0.047)
+2025-09-09 08:39:12,525 - INFO -   random_forest: std_thr=0.500 (FPR=0.080, FNR=0.093) | ste_thr=0.429 (FPR=0.113, FNR=0.080) | val_f1=0.913, latency=0.04ms
+2025-09-09 08:39:12,525 - INFO - Training gradient_boosting...
+2025-09-09 08:42:57,097 - INFO -   Best params for gradient_boosting: {'classifier__learning_rate': 0.1, 'classifier__max_depth': 10, 'classifier__min_samples_split': 10, 'classifier__n_estimators': 300, 'classifier__subsample': 0.9}
+2025-09-09 08:42:57,121 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:42:57,228 - INFO - Inference latency: 0.011 ms/sample (mean: 0.011, 95th percentile: 0.012)
+2025-09-09 08:42:57,228 - INFO -   gradient_boosting: std_thr=0.503 (FPR=0.047, FNR=0.093) | ste_thr=0.235 (FPR=0.127, FNR=0.073) | val_f1=0.928, latency=0.01ms
+2025-09-09 08:42:57,229 - INFO - Selected champion: gradient_boosting
+2025-09-09 08:42:57,270 - INFO - Band misclassification analysis:
+2025-09-09 08:42:57,271 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:42:57,272 - INFO -   moderate: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:42:57,272 - INFO -   none: 13.0/200.0 (0.065) [FPR]
+2025-09-09 08:42:57,272 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:42:57,272 - INFO -   stealthy: 18.0/50.0 (0.360) [FNR]
+2025-09-09 08:42:57,274 - INFO - Band misclassification analysis:
+2025-09-09 08:42:57,274 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:42:57,274 - INFO -   moderate: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:42:57,275 - INFO -   none: 31.0/200.0 (0.155) [FPR]
+2025-09-09 08:42:57,275 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:42:57,275 - INFO -   stealthy: 11.0/50.0 (0.220) [FNR]
+2025-09-09 08:42:57,276 - INFO - Standard Policy Results:
+2025-09-09 08:42:57,276 - INFO -   Threshold: 0.503
+2025-09-09 08:42:57,276 - INFO -   Test FPR: 0.0650 | Test FNR: 0.0900 (FPR drift from val: +0.0183)
+2025-09-09 08:42:57,276 - INFO -   Test F1: 0.9215
+2025-09-09 08:42:57,276 - INFO - Stealthy Policy Results:
+2025-09-09 08:42:57,276 - INFO -   Threshold: 0.235
+2025-09-09 08:42:57,276 - INFO -   Test FPR: 0.1550 | Test FNR: 0.0550 (FNR drift from val: -0.0183)
+2025-09-09 08:42:57,276 - INFO -   Test F1: 0.9000
+2025-09-09 08:42:57,276 - INFO - Calibration: ECE=0.0326, Brier=0.0603
+2025-09-09 08:42:59,913 - INFO - Results saved to: experimental_results/rq2/seed_456
+2025-09-09 08:42:59,913 - INFO - Starting detection experiment with seed 789
+2025-09-09 08:42:59,916 - INFO - Set random seeds to 789
+2025-09-09 08:42:59,919 - INFO - Binary dataset prepared: 2000 samples
+2025-09-09 08:42:59,920 - INFO - Class distribution: {0: 1000, 1: 1000}
+2025-09-09 08:42:59,932 - INFO - Final features after domain-informed pruning (7): ['std_magnitude', 'received_power', 'peak_to_avg_ratio', 'spectral_flatness', 'amplitude_kurtosis', 'spectral_bandwidth', 'spectral_rolloff']
+2025-09-09 08:42:59,934 - INFO - Applied 2.0x weight to 125 stealthy samples
+2025-09-09 08:42:59,934 - INFO - Data splits: train=1000, calib=300, val=300, test=400
+2025-09-09 08:42:59,934 - INFO - Train band distribution: {'none': 500, 'moderate': 125, 'stealthy': 125, 'severe': 125, 'critical': 125}
+2025-09-09 08:42:59,934 - INFO - Calib band distribution: {'none': 150, 'stealthy': 38, 'severe': 38, 'critical': 37, 'moderate': 37}
+2025-09-09 08:42:59,935 - INFO - Val band distribution: {'none': 150, 'critical': 38, 'moderate': 38, 'severe': 37, 'stealthy': 37}
+2025-09-09 08:42:59,935 - INFO - Test band distribution: {'none': 200, 'stealthy': 50, 'moderate': 50, 'severe': 50, 'critical': 50}
+2025-09-09 08:42:59,935 - INFO - CHAMPION SELECTION WITH POLICY-BASED THRESHOLDS
+2025-09-09 08:42:59,935 - INFO - Training logistic_regression...
+2025-09-09 08:43:02,300 - INFO -   Best params for logistic_regression: {'classifier__C': 0.1, 'classifier__class_weight': 'balanced', 'classifier__penalty': 'l2', 'classifier__solver': 'lbfgs'}
+2025-09-09 08:43:02,307 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:43:02,324 - INFO - Inference latency: 0.001 ms/sample (mean: 0.001, 95th percentile: 0.001)
+2025-09-09 08:43:02,325 - INFO -   logistic_regression: std_thr=0.636 (FPR=0.033, FNR=0.127) | ste_thr=0.250 (FPR=0.467, FNR=0.020) | val_f1=0.916, latency=0.00ms
+2025-09-09 08:43:02,325 - INFO - Training svm...
+2025-09-09 08:43:05,334 - INFO -   Best params for svm: {'classifier__C': 0.1, 'classifier__class_weight': 'balanced', 'classifier__gamma': 0.1, 'classifier__kernel': 'rbf'}
+2025-09-09 08:43:05,347 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:43:05,465 - INFO - Inference latency: 0.012 ms/sample (mean: 0.013, 95th percentile: 0.013)
+2025-09-09 08:43:05,465 - INFO -   svm: std_thr=0.367 (FPR=0.080, FNR=0.093) | ste_thr=0.250 (FPR=0.433, FNR=0.013) | val_f1=0.913, latency=0.01ms
+2025-09-09 08:43:05,465 - INFO - Training random_forest...
+2025-09-09 08:51:50,451 - INFO -   Best params for random_forest: {'classifier__class_weight': 'balanced', 'classifier__max_depth': None, 'classifier__max_features': 'sqrt', 'classifier__min_samples_leaf': 4, 'classifier__min_samples_split': 10, 'classifier__n_estimators': 500}
+2025-09-09 08:51:50,537 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:51:51,679 - INFO - Inference latency: 0.100 ms/sample (mean: 0.100, 95th percentile: 0.122)
+2025-09-09 08:51:51,680 - INFO -   random_forest: std_thr=0.592 (FPR=0.027, FNR=0.147) | ste_thr=0.588 (FPR=0.113, FNR=0.080) | val_f1=0.908, latency=0.10ms
+2025-09-09 08:51:51,680 - INFO - Training gradient_boosting...
+2025-09-09 08:55:20,411 - INFO -   Best params for gradient_boosting: {'classifier__learning_rate': 0.05, 'classifier__max_depth': 3, 'classifier__min_samples_split': 5, 'classifier__n_estimators': 300, 'classifier__subsample': 0.9}
+2025-09-09 08:55:20,424 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:55:20,470 - INFO - Inference latency: 0.005 ms/sample (mean: 0.005, 95th percentile: 0.005)
+2025-09-09 08:55:20,471 - INFO -   gradient_boosting: std_thr=0.476 (FPR=0.053, FNR=0.127) | ste_thr=0.200 (FPR=0.320, FNR=0.053) | val_f1=0.907, latency=0.00ms
+2025-09-09 08:55:20,471 - INFO - Selected champion: logistic_regression
+2025-09-09 08:55:20,515 - INFO - Band misclassification analysis:
+2025-09-09 08:55:20,516 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:55:20,516 - INFO -   moderate: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:55:20,516 - INFO -   none: 4.0/200.0 (0.020) [FPR]
+2025-09-09 08:55:20,516 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:55:20,517 - INFO -   stealthy: 18.0/50.0 (0.360) [FNR]
+2025-09-09 08:55:20,520 - INFO - Band misclassification analysis:
+2025-09-09 08:55:20,520 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:55:20,520 - INFO -   moderate: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:55:20,520 - INFO -   none: 61.0/200.0 (0.305) [FPR]
+2025-09-09 08:55:20,520 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 08:55:20,520 - INFO -   stealthy: 3.0/50.0 (0.060) [FNR]
+2025-09-09 08:55:20,521 - INFO - Standard Policy Results:
+2025-09-09 08:55:20,521 - INFO -   Threshold: 0.636
+2025-09-09 08:55:20,521 - INFO -   Test FPR: 0.0200 | Test FNR: 0.0900 (FPR drift from val: -0.0133)
+2025-09-09 08:55:20,521 - INFO -   Test F1: 0.9430
+2025-09-09 08:55:20,521 - INFO - Stealthy Policy Results:
+2025-09-09 08:55:20,521 - INFO -   Threshold: 0.250
+2025-09-09 08:55:20,521 - INFO -   Test FPR: 0.3050 | Test FNR: 0.0150 (FNR drift from val: -0.0050)
+2025-09-09 08:55:20,521 - INFO -   Test F1: 0.8603
+2025-09-09 08:55:20,521 - INFO - Calibration: ECE=0.0413, Brier=0.0477
+2025-09-09 08:55:22,952 - INFO - Results saved to: experimental_results/rq2/seed_789
+2025-09-09 08:55:22,952 - INFO - Starting detection experiment with seed 999
+2025-09-09 08:55:22,953 - INFO - Set random seeds to 999
+2025-09-09 08:55:22,957 - INFO - Binary dataset prepared: 2000 samples
+2025-09-09 08:55:22,957 - INFO - Class distribution: {0: 1000, 1: 1000}
+2025-09-09 08:55:22,968 - INFO - Final features after domain-informed pruning (7): ['std_magnitude', 'received_power', 'peak_to_avg_ratio', 'spectral_flatness', 'amplitude_kurtosis', 'spectral_bandwidth', 'spectral_rolloff']
+2025-09-09 08:55:22,970 - INFO - Applied 2.0x weight to 125 stealthy samples
+2025-09-09 08:55:22,970 - INFO - Data splits: train=1000, calib=300, val=300, test=400
+2025-09-09 08:55:22,970 - INFO - Train band distribution: {'none': 500, 'stealthy': 125, 'moderate': 125, 'severe': 125, 'critical': 125}
+2025-09-09 08:55:22,970 - INFO - Calib band distribution: {'none': 150, 'critical': 38, 'stealthy': 38, 'severe': 37, 'moderate': 37}
+2025-09-09 08:55:22,971 - INFO - Val band distribution: {'none': 150, 'moderate': 38, 'severe': 38, 'critical': 37, 'stealthy': 37}
+2025-09-09 08:55:22,971 - INFO - Test band distribution: {'none': 200, 'critical': 50, 'severe': 50, 'moderate': 50, 'stealthy': 50}
+2025-09-09 08:55:22,971 - INFO - CHAMPION SELECTION WITH POLICY-BASED THRESHOLDS
+2025-09-09 08:55:22,971 - INFO - Training logistic_regression...
+2025-09-09 08:55:25,009 - INFO -   Best params for logistic_regression: {'classifier__C': 1.0, 'classifier__class_weight': 'balanced', 'classifier__penalty': 'l2', 'classifier__solver': 'lbfgs'}
+2025-09-09 08:55:25,014 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:55:25,029 - INFO - Inference latency: 0.001 ms/sample (mean: 0.001, 95th percentile: 0.001)
+2025-09-09 08:55:25,029 - INFO -   logistic_regression: std_thr=0.500 (FPR=0.080, FNR=0.087) | ste_thr=0.222 (FPR=0.107, FNR=0.067) | val_f1=0.916, latency=0.00ms
+2025-09-09 08:55:25,029 - INFO - Training svm...
+2025-09-09 08:55:27,750 - INFO -   Best params for svm: {'classifier__C': 10.0, 'classifier__class_weight': 'balanced', 'classifier__gamma': 1.0, 'classifier__kernel': 'rbf'}
+2025-09-09 08:55:27,763 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 08:55:27,866 - INFO - Inference latency: 0.011 ms/sample (mean: 0.011, 95th percentile: 0.012)
+2025-09-09 08:55:27,867 - INFO -   svm: std_thr=0.132 (FPR=0.060, FNR=0.087) | ste_thr=0.087 (FPR=0.187, FNR=0.053) | val_f1=0.926, latency=0.01ms
+2025-09-09 08:55:27,867 - INFO - Training random_forest...
+2025-09-09 09:04:16,554 - INFO -   Best params for random_forest: {'classifier__class_weight': 'balanced_subsample', 'classifier__max_depth': None, 'classifier__max_features': 'sqrt', 'classifier__min_samples_leaf': 2, 'classifier__min_samples_split': 10, 'classifier__n_estimators': 200}
+2025-09-09 09:04:16,598 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 09:04:17,352 - INFO - Inference latency: 0.053 ms/sample (mean: 0.066, 95th percentile: 0.055)
+2025-09-09 09:04:17,353 - INFO -   random_forest: std_thr=0.239 (FPR=0.053, FNR=0.107) | ste_thr=0.143 (FPR=0.113, FNR=0.060) | val_f1=0.918, latency=0.05ms
+2025-09-09 09:04:17,353 - INFO - Training gradient_boosting...
+2025-09-09 09:07:31,645 - INFO -   Best params for gradient_boosting: {'classifier__learning_rate': 0.05, 'classifier__max_depth': 3, 'classifier__min_samples_split': 5, 'classifier__n_estimators': 100, 'classifier__subsample': 0.8}
+2025-09-09 09:07:31,657 - INFO - Measuring inference latency over 30 runs with 10 warmup runs
+2025-09-09 09:07:31,681 - INFO - Inference latency: 0.002 ms/sample (mean: 0.002, 95th percentile: 0.002)
+2025-09-09 09:07:31,681 - INFO -   gradient_boosting: std_thr=0.600 (FPR=0.020, FNR=0.153) | ste_thr=0.500 (FPR=0.087, FNR=0.060) | val_f1=0.907, latency=0.00ms
+2025-09-09 09:07:31,681 - INFO - Selected champion: svm
+2025-09-09 09:07:31,713 - INFO - Band misclassification analysis:
+2025-09-09 09:07:31,713 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 09:07:31,714 - INFO -   moderate: 0.0/50.0 (0.000) [FNR]
+2025-09-09 09:07:31,714 - INFO -   none: 12.0/200.0 (0.060) [FPR]
+2025-09-09 09:07:31,714 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 09:07:31,714 - INFO -   stealthy: 21.0/50.0 (0.420) [FNR]
+2025-09-09 09:07:31,716 - INFO - Band misclassification analysis:
+2025-09-09 09:07:31,716 - INFO -   critical: 0.0/50.0 (0.000) [FNR]
+2025-09-09 09:07:31,716 - INFO -   moderate: 0.0/50.0 (0.000) [FNR]
+2025-09-09 09:07:31,716 - INFO -   none: 39.0/200.0 (0.195) [FPR]
+2025-09-09 09:07:31,716 - INFO -   severe: 0.0/50.0 (0.000) [FNR]
+2025-09-09 09:07:31,716 - INFO -   stealthy: 8.0/50.0 (0.160) [FNR]
+2025-09-09 09:07:31,716 - INFO - Standard Policy Results:
+2025-09-09 09:07:31,717 - INFO -   Threshold: 0.132
+2025-09-09 09:07:31,717 - INFO -   Test FPR: 0.0600 | Test FNR: 0.1050 (FPR drift from val: +0.0000)
+2025-09-09 09:07:31,717 - INFO -   Test F1: 0.9156
+2025-09-09 09:07:31,717 - INFO - Stealthy Policy Results:
+2025-09-09 09:07:31,717 - INFO -   Threshold: 0.087
+2025-09-09 09:07:31,717 - INFO -   Test FPR: 0.1950 | Test FNR: 0.0400 (FNR drift from val: -0.0133)
+2025-09-09 09:07:31,717 - INFO -   Test F1: 0.8910
+2025-09-09 09:07:31,717 - INFO - Calibration: ECE=0.0447, Brier=0.0756
+2025-09-09 09:07:34,041 - INFO - Results saved to: experimental_results/rq2/seed_999
+
+Policy-Based Pipeline Results Summary
+Dataset: train_jamming_features_research.csv
+Successful runs: 5/5
+
+Standard Policy Performance (FPR ≤ 0.10):
+  F1 Score: 0.922 ± 0.011
+  Accuracy: 0.923 ± 0.011
+  FPR: 0.054 ± 0.017
+  FNR: 0.099 ± 0.007
+  Policy compliance: 5/5 seeds
+
+Stealthy Policy Performance (FNR ≤ 0.10):
+  F1 Score: 0.896 ± 0.020
+  Accuracy: 0.889 ± 0.027
+  FPR: 0.166 ± 0.081
+  FNR: 0.056 ± 0.027
+  Policy compliance: 5/5 seeds
+
+Calibration Quality:
+  ECE: 0.0404 ± 0.0045
+  Brier Score: 0.0620 ± 0.0089
+
+Operational Characteristics:
+  Feature count: 7.0 ± 0.0
+  val_latency_ms: 0.0114 ± 0.0113
+
+Results saved to: experimental_results/rq2
+
+
+(base) huishingchong@MacBook-Air ris_jamming_anomaly_detection % for seed in 42 123 456 789 999; do python3 evaluation.py --model experimental_results/rq2/seed_${seed}/model_artifacts.joblib --bootstrap-iters 1000 --test-csvs datasets/jamming_features_research_stealthy_test.csv datasets/jamming_features_research_moderate_test.csv datasets/jamming_features_research_severe_test.csv datasets/jamming_features_research_critical_test.csv datasets/jamming_features_research_ultra_stealthy_test.csv datasets/jamming_features_research_ultra_strong_test.csv --output experimental_results/evaluation/seed_${seed}; done 
+2025-09-09 09:21:35,958 - INFO - Logging to file: experimental_results/evaluation/seed_42/robustness_evaluation.log
+2025-09-09 09:21:35,958 - INFO - Set random seeds to 42
+2025-09-09 09:21:35,958 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:21:35,958 - INFO - Model: experimental_results/rq2/seed_42/model_artifacts.joblib
+2025-09-09 09:21:35,958 - INFO - Test datasets: 6
+2025-09-09 09:21:35,959 - INFO - Threshold mode: standard
+2025-09-09 09:21:36,030 - INFO - --------------------------------------------------
+2025-09-09 09:21:36,030 - INFO - Model artifacts
+2025-09-09 09:21:36,030 - INFO -   Path: experimental_results/rq2/seed_42/model_artifacts.joblib
+2025-09-09 09:21:36,030 - INFO -   Champion: svm
+2025-09-09 09:21:36,030 - INFO -   Type: supervised
+2025-09-09 09:21:36,030 - INFO -   Threshold (standard): 0.364
+2025-09-09 09:21:36,030 - INFO -   Final features (7):
+2025-09-09 09:21:36,030 - INFO -     - std_magnitude
+2025-09-09 09:21:36,030 - INFO -     - received_power
+2025-09-09 09:21:36,030 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:21:36,030 - INFO -     - spectral_flatness
+2025-09-09 09:21:36,030 - INFO -     - amplitude_kurtosis
+2025-09-09 09:21:36,030 - INFO -     - spectral_bandwidth
+2025-09-09 09:21:36,030 - INFO -     - spectral_rolloff
+2025-09-09 09:21:36,030 - INFO - --------------------------------------------------
+2025-09-09 09:21:36,030 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:21:36,036 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:36,039 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:36,039 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:37,766 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:21:37,766 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:37,766 - INFO -   Confusion Matrix: TP=154, FP=19, TN=181, FN=46
+2025-09-09 09:21:37,766 - INFO -   Accuracy: 0.838, F1: 0.826
+2025-09-09 09:21:37,766 - INFO -   FPR: 0.095, FNR: 0.230
+2025-09-09 09:21:37,767 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:21:37,770 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:37,770 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:37,771 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:39,452 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:21:39,452 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:39,452 - INFO -   Confusion Matrix: TP=199, FP=19, TN=181, FN=1
+2025-09-09 09:21:39,452 - INFO -   Accuracy: 0.950, F1: 0.952
+2025-09-09 09:21:39,452 - INFO -   FPR: 0.095, FNR: 0.005
+2025-09-09 09:21:39,453 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:21:39,456 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:39,456 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:39,456 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:41,132 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:21:41,132 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:41,132 - INFO -   Confusion Matrix: TP=200, FP=19, TN=181, FN=0
+2025-09-09 09:21:41,132 - INFO -   Accuracy: 0.953, F1: 0.955
+2025-09-09 09:21:41,132 - INFO -   FPR: 0.095, FNR: 0.000
+2025-09-09 09:21:41,132 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:21:41,136 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:41,136 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:41,136 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:42,802 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:21:42,803 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:42,803 - INFO -   Confusion Matrix: TP=200, FP=19, TN=181, FN=0
+2025-09-09 09:21:42,803 - INFO -   Accuracy: 0.953, F1: 0.955
+2025-09-09 09:21:42,803 - INFO -   FPR: 0.095, FNR: 0.000
+2025-09-09 09:21:42,803 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:21:42,805 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:42,805 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:42,805 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:44,507 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:21:44,507 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:44,507 - INFO -   Confusion Matrix: TP=52, FP=22, TN=178, FN=148
+2025-09-09 09:21:44,507 - INFO -   Accuracy: 0.575, F1: 0.380
+2025-09-09 09:21:44,507 - INFO -   FPR: 0.110, FNR: 0.740
+2025-09-09 09:21:44,507 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:21:44,511 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:44,511 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:44,511 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:46,202 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:21:46,202 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:46,202 - INFO -   Confusion Matrix: TP=200, FP=19, TN=181, FN=0
+2025-09-09 09:21:46,202 - INFO -   Accuracy: 0.953, F1: 0.955
+2025-09-09 09:21:46,202 - INFO -   FPR: 0.095, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: svm
+Threshold (standard): 0.364
+Datasets evaluated: 6
+2025-09-09 09:21:46,204 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation/seed_42
+2025-09-09 09:21:47,125 - INFO - Logging to file: experimental_results/evaluation/seed_123/robustness_evaluation.log
+2025-09-09 09:21:47,125 - INFO - Set random seeds to 42
+2025-09-09 09:21:47,125 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:21:47,126 - INFO - Model: experimental_results/rq2/seed_123/model_artifacts.joblib
+2025-09-09 09:21:47,126 - INFO - Test datasets: 6
+2025-09-09 09:21:47,126 - INFO - Threshold mode: standard
+2025-09-09 09:21:47,156 - INFO - --------------------------------------------------
+2025-09-09 09:21:47,156 - INFO - Model artifacts
+2025-09-09 09:21:47,156 - INFO -   Path: experimental_results/rq2/seed_123/model_artifacts.joblib
+2025-09-09 09:21:47,156 - INFO -   Champion: logistic_regression
+2025-09-09 09:21:47,156 - INFO -   Type: supervised
+2025-09-09 09:21:47,156 - INFO -   Threshold (standard): 0.444
+2025-09-09 09:21:47,156 - INFO -   Final features (7):
+2025-09-09 09:21:47,156 - INFO -     - std_magnitude
+2025-09-09 09:21:47,156 - INFO -     - received_power
+2025-09-09 09:21:47,156 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:21:47,156 - INFO -     - spectral_flatness
+2025-09-09 09:21:47,156 - INFO -     - amplitude_kurtosis
+2025-09-09 09:21:47,156 - INFO -     - spectral_bandwidth
+2025-09-09 09:21:47,156 - INFO -     - spectral_rolloff
+2025-09-09 09:21:47,156 - INFO - --------------------------------------------------
+2025-09-09 09:21:47,156 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:21:47,159 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:47,160 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:47,160 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:49,363 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:21:49,363 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:49,363 - INFO -   Confusion Matrix: TP=120, FP=7, TN=193, FN=80
+2025-09-09 09:21:49,363 - INFO -   Accuracy: 0.782, F1: 0.734
+2025-09-09 09:21:49,363 - INFO -   FPR: 0.035, FNR: 0.400
+2025-09-09 09:21:49,363 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:21:49,367 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:49,367 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:49,368 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:51,083 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:21:51,083 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:51,083 - INFO -   Confusion Matrix: TP=194, FP=7, TN=193, FN=6
+2025-09-09 09:21:51,083 - INFO -   Accuracy: 0.968, F1: 0.968
+2025-09-09 09:21:51,083 - INFO -   FPR: 0.035, FNR: 0.030
+2025-09-09 09:21:51,083 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:21:51,087 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:51,087 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:51,087 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:52,896 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:21:52,897 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:52,897 - INFO -   Confusion Matrix: TP=200, FP=7, TN=193, FN=0
+2025-09-09 09:21:52,897 - INFO -   Accuracy: 0.983, F1: 0.983
+2025-09-09 09:21:52,897 - INFO -   FPR: 0.035, FNR: 0.000
+2025-09-09 09:21:52,897 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:21:52,901 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:52,902 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:52,902 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:54,683 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:21:54,683 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:54,684 - INFO -   Confusion Matrix: TP=200, FP=7, TN=193, FN=0
+2025-09-09 09:21:54,684 - INFO -   Accuracy: 0.983, F1: 0.983
+2025-09-09 09:21:54,684 - INFO -   FPR: 0.035, FNR: 0.000
+2025-09-09 09:21:54,684 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:21:54,686 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:54,687 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:54,687 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:56,387 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:21:56,388 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:56,388 - INFO -   Confusion Matrix: TP=36, FP=12, TN=188, FN=164
+2025-09-09 09:21:56,388 - INFO -   Accuracy: 0.560, F1: 0.290
+2025-09-09 09:21:56,388 - INFO -   FPR: 0.060, FNR: 0.820
+2025-09-09 09:21:56,388 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:21:56,391 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:56,392 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:56,392 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:21:58,316 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:21:58,317 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:21:58,317 - INFO -   Confusion Matrix: TP=200, FP=7, TN=193, FN=0
+2025-09-09 09:21:58,317 - INFO -   Accuracy: 0.983, F1: 0.983
+2025-09-09 09:21:58,317 - INFO -   FPR: 0.035, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: logistic_regression
+Threshold (standard): 0.444
+Datasets evaluated: 6
+2025-09-09 09:21:58,319 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation/seed_123
+2025-09-09 09:21:59,092 - INFO - Logging to file: experimental_results/evaluation/seed_456/robustness_evaluation.log
+2025-09-09 09:21:59,092 - INFO - Set random seeds to 42
+2025-09-09 09:21:59,092 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:21:59,093 - INFO - Model: experimental_results/rq2/seed_456/model_artifacts.joblib
+2025-09-09 09:21:59,093 - INFO - Test datasets: 6
+2025-09-09 09:21:59,093 - INFO - Threshold mode: standard
+2025-09-09 09:21:59,196 - INFO - --------------------------------------------------
+2025-09-09 09:21:59,196 - INFO - Model artifacts
+2025-09-09 09:21:59,196 - INFO -   Path: experimental_results/rq2/seed_456/model_artifacts.joblib
+2025-09-09 09:21:59,196 - INFO -   Champion: gradient_boosting
+2025-09-09 09:21:59,196 - INFO -   Type: supervised
+2025-09-09 09:21:59,196 - INFO -   Threshold (standard): 0.503
+2025-09-09 09:21:59,196 - INFO -   Final features (7):
+2025-09-09 09:21:59,196 - INFO -     - std_magnitude
+2025-09-09 09:21:59,196 - INFO -     - received_power
+2025-09-09 09:21:59,196 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:21:59,196 - INFO -     - spectral_flatness
+2025-09-09 09:21:59,196 - INFO -     - amplitude_kurtosis
+2025-09-09 09:21:59,196 - INFO -     - spectral_bandwidth
+2025-09-09 09:21:59,196 - INFO -     - spectral_rolloff
+2025-09-09 09:21:59,196 - INFO - --------------------------------------------------
+2025-09-09 09:21:59,196 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:21:59,199 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:21:59,200 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:21:59,200 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:00,929 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:22:00,929 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:00,929 - INFO -   Confusion Matrix: TP=129, FP=11, TN=189, FN=71
+2025-09-09 09:22:00,929 - INFO -   Accuracy: 0.795, F1: 0.759
+2025-09-09 09:22:00,930 - INFO -   FPR: 0.055, FNR: 0.355
+2025-09-09 09:22:00,930 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:22:00,933 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:00,933 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:00,933 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:02,677 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:22:02,678 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:02,678 - INFO -   Confusion Matrix: TP=193, FP=11, TN=189, FN=7
+2025-09-09 09:22:02,678 - INFO -   Accuracy: 0.955, F1: 0.955
+2025-09-09 09:22:02,678 - INFO -   FPR: 0.055, FNR: 0.035
+2025-09-09 09:22:02,678 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:22:02,681 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:02,682 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:02,682 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:04,393 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:22:04,394 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:04,394 - INFO -   Confusion Matrix: TP=200, FP=11, TN=189, FN=0
+2025-09-09 09:22:04,394 - INFO -   Accuracy: 0.973, F1: 0.973
+2025-09-09 09:22:04,394 - INFO -   FPR: 0.055, FNR: 0.000
+2025-09-09 09:22:04,394 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:22:04,398 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:04,398 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:04,399 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:06,092 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:22:06,092 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:06,092 - INFO -   Confusion Matrix: TP=200, FP=11, TN=189, FN=0
+2025-09-09 09:22:06,092 - INFO -   Accuracy: 0.973, F1: 0.973
+2025-09-09 09:22:06,092 - INFO -   FPR: 0.055, FNR: 0.000
+2025-09-09 09:22:06,093 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:22:06,095 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:06,095 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:06,096 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:07,785 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:22:07,786 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:07,786 - INFO -   Confusion Matrix: TP=43, FP=12, TN=188, FN=157
+2025-09-09 09:22:07,786 - INFO -   Accuracy: 0.578, F1: 0.337
+2025-09-09 09:22:07,786 - INFO -   FPR: 0.060, FNR: 0.785
+2025-09-09 09:22:07,786 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:22:07,788 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:07,789 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:07,789 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:09,488 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:22:09,488 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:09,489 - INFO -   Confusion Matrix: TP=200, FP=11, TN=189, FN=0
+2025-09-09 09:22:09,489 - INFO -   Accuracy: 0.973, F1: 0.973
+2025-09-09 09:22:09,489 - INFO -   FPR: 0.055, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: gradient_boosting
+Threshold (standard): 0.503
+Datasets evaluated: 6
+2025-09-09 09:22:09,490 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation/seed_456
+2025-09-09 09:22:10,275 - INFO - Logging to file: experimental_results/evaluation/seed_789/robustness_evaluation.log
+2025-09-09 09:22:10,275 - INFO - Set random seeds to 42
+2025-09-09 09:22:10,275 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:22:10,275 - INFO - Model: experimental_results/rq2/seed_789/model_artifacts.joblib
+2025-09-09 09:22:10,275 - INFO - Test datasets: 6
+2025-09-09 09:22:10,275 - INFO - Threshold mode: standard
+2025-09-09 09:22:10,303 - INFO - --------------------------------------------------
+2025-09-09 09:22:10,303 - INFO - Model artifacts
+2025-09-09 09:22:10,303 - INFO -   Path: experimental_results/rq2/seed_789/model_artifacts.joblib
+2025-09-09 09:22:10,303 - INFO -   Champion: logistic_regression
+2025-09-09 09:22:10,303 - INFO -   Type: supervised
+2025-09-09 09:22:10,303 - INFO -   Threshold (standard): 0.636
+2025-09-09 09:22:10,303 - INFO -   Final features (7):
+2025-09-09 09:22:10,303 - INFO -     - std_magnitude
+2025-09-09 09:22:10,303 - INFO -     - received_power
+2025-09-09 09:22:10,303 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:22:10,303 - INFO -     - spectral_flatness
+2025-09-09 09:22:10,303 - INFO -     - amplitude_kurtosis
+2025-09-09 09:22:10,303 - INFO -     - spectral_bandwidth
+2025-09-09 09:22:10,303 - INFO -     - spectral_rolloff
+2025-09-09 09:22:10,303 - INFO - --------------------------------------------------
+2025-09-09 09:22:10,303 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:22:10,306 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:10,307 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:10,307 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:12,028 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:22:12,028 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:12,028 - INFO -   Confusion Matrix: TP=110, FP=6, TN=194, FN=90
+2025-09-09 09:22:12,028 - INFO -   Accuracy: 0.760, F1: 0.696
+2025-09-09 09:22:12,028 - INFO -   FPR: 0.030, FNR: 0.450
+2025-09-09 09:22:12,028 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:22:12,032 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:12,032 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:12,032 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:13,723 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:22:13,723 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:13,723 - INFO -   Confusion Matrix: TP=191, FP=6, TN=194, FN=9
+2025-09-09 09:22:13,723 - INFO -   Accuracy: 0.963, F1: 0.962
+2025-09-09 09:22:13,723 - INFO -   FPR: 0.030, FNR: 0.045
+2025-09-09 09:22:13,723 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:22:13,726 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:13,727 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:13,727 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:15,406 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:22:15,406 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:15,406 - INFO -   Confusion Matrix: TP=200, FP=6, TN=194, FN=0
+2025-09-09 09:22:15,406 - INFO -   Accuracy: 0.985, F1: 0.985
+2025-09-09 09:22:15,406 - INFO -   FPR: 0.030, FNR: 0.000
+2025-09-09 09:22:15,406 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:22:15,410 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:15,410 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:15,410 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:17,077 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:22:17,077 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:17,077 - INFO -   Confusion Matrix: TP=200, FP=6, TN=194, FN=0
+2025-09-09 09:22:17,077 - INFO -   Accuracy: 0.985, F1: 0.985
+2025-09-09 09:22:17,077 - INFO -   FPR: 0.030, FNR: 0.000
+2025-09-09 09:22:17,077 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:22:17,079 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:17,080 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:17,080 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:18,752 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:22:18,752 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:18,752 - INFO -   Confusion Matrix: TP=29, FP=6, TN=194, FN=171
+2025-09-09 09:22:18,752 - INFO -   Accuracy: 0.557, F1: 0.247
+2025-09-09 09:22:18,752 - INFO -   FPR: 0.030, FNR: 0.855
+2025-09-09 09:22:18,752 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:22:18,756 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:18,756 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:18,756 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:20,435 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:22:20,435 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:20,435 - INFO -   Confusion Matrix: TP=200, FP=6, TN=194, FN=0
+2025-09-09 09:22:20,435 - INFO -   Accuracy: 0.985, F1: 0.985
+2025-09-09 09:22:20,435 - INFO -   FPR: 0.030, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: logistic_regression
+Threshold (standard): 0.636
+Datasets evaluated: 6
+2025-09-09 09:22:20,437 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation/seed_789
+2025-09-09 09:22:20,973 - INFO - Logging to file: experimental_results/evaluation/seed_999/robustness_evaluation.log
+2025-09-09 09:22:20,974 - INFO - Set random seeds to 42
+2025-09-09 09:22:20,974 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:22:20,974 - INFO - Model: experimental_results/rq2/seed_999/model_artifacts.joblib
+2025-09-09 09:22:20,974 - INFO - Test datasets: 6
+2025-09-09 09:22:20,974 - INFO - Threshold mode: standard
+2025-09-09 09:22:20,996 - INFO - --------------------------------------------------
+2025-09-09 09:22:20,996 - INFO - Model artifacts
+2025-09-09 09:22:20,996 - INFO -   Path: experimental_results/rq2/seed_999/model_artifacts.joblib
+2025-09-09 09:22:20,996 - INFO -   Champion: svm
+2025-09-09 09:22:20,996 - INFO -   Type: supervised
+2025-09-09 09:22:20,996 - INFO -   Threshold (standard): 0.132
+2025-09-09 09:22:20,996 - INFO -   Final features (7):
+2025-09-09 09:22:20,996 - INFO -     - std_magnitude
+2025-09-09 09:22:20,996 - INFO -     - received_power
+2025-09-09 09:22:20,996 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:22:20,996 - INFO -     - spectral_flatness
+2025-09-09 09:22:20,996 - INFO -     - amplitude_kurtosis
+2025-09-09 09:22:20,996 - INFO -     - spectral_bandwidth
+2025-09-09 09:22:20,996 - INFO -     - spectral_rolloff
+2025-09-09 09:22:20,996 - INFO - --------------------------------------------------
+2025-09-09 09:22:20,996 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:22:20,998 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:20,999 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:20,999 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:22,900 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:22:22,900 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:22,900 - INFO -   Confusion Matrix: TP=129, FP=10, TN=190, FN=71
+2025-09-09 09:22:22,900 - INFO -   Accuracy: 0.797, F1: 0.761
+2025-09-09 09:22:22,900 - INFO -   FPR: 0.050, FNR: 0.355
+2025-09-09 09:22:22,900 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:22:22,904 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:22,905 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:22,905 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:24,604 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:22:24,604 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:24,604 - INFO -   Confusion Matrix: TP=195, FP=10, TN=190, FN=5
+2025-09-09 09:22:24,604 - INFO -   Accuracy: 0.963, F1: 0.963
+2025-09-09 09:22:24,604 - INFO -   FPR: 0.050, FNR: 0.025
+2025-09-09 09:22:24,605 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:22:24,608 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:24,608 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:24,608 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:26,291 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:22:26,292 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:26,292 - INFO -   Confusion Matrix: TP=200, FP=10, TN=190, FN=0
+2025-09-09 09:22:26,292 - INFO -   Accuracy: 0.975, F1: 0.976
+2025-09-09 09:22:26,292 - INFO -   FPR: 0.050, FNR: 0.000
+2025-09-09 09:22:26,292 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:22:26,295 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:26,296 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:26,296 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:27,983 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:22:27,983 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:27,983 - INFO -   Confusion Matrix: TP=200, FP=10, TN=190, FN=0
+2025-09-09 09:22:27,983 - INFO -   Accuracy: 0.975, F1: 0.976
+2025-09-09 09:22:27,983 - INFO -   FPR: 0.050, FNR: 0.000
+2025-09-09 09:22:27,983 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:22:27,986 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:27,986 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:27,986 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:29,670 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:22:29,671 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:29,671 - INFO -   Confusion Matrix: TP=36, FP=17, TN=183, FN=164
+2025-09-09 09:22:29,671 - INFO -   Accuracy: 0.547, F1: 0.285
+2025-09-09 09:22:29,671 - INFO -   FPR: 0.085, FNR: 0.820
+2025-09-09 09:22:29,671 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:22:29,674 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:22:29,674 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:22:29,675 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:22:31,369 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:22:31,369 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:22:31,369 - INFO -   Confusion Matrix: TP=200, FP=10, TN=190, FN=0
+2025-09-09 09:22:31,369 - INFO -   Accuracy: 0.975, F1: 0.976
+2025-09-09 09:22:31,369 - INFO -   FPR: 0.050, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: svm
+Threshold (standard): 0.132
+Datasets evaluated: 6
+2025-09-09 09:22:31,370 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation/seed_999
+(base) huishingchong@MacBook-Air ris_jamming_anomaly_detection % for seed in 42 123 456 789 999; do python3 evaluation.py --threshold-mode stealthy --model experimental_results/rq2/seed_${seed}/model_artifacts.joblib --bootstrap-iters 1000 --test-csvs datasets/jamming_features_research_stealthy_test.csv datasets/jamming_features_research_moderate_test.csv datasets/jamming_features_research_severe_test.csv datasets/jamming_features_research_critical_test.csv datasets/jamming_features_research_ultra_stealthy_test.csv datasets/jamming_features_research_ultra_strong_test.csv --output experimental_results/evaluation_stealthy_threshold/seed_${seed}; done 
+2025-09-09 09:25:26,970 - INFO - Logging to file: experimental_results/evaluation_stealthy_threshold/seed_42/robustness_evaluation.log
+2025-09-09 09:25:26,971 - INFO - Set random seeds to 42
+2025-09-09 09:25:26,971 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:25:26,971 - INFO - Model: experimental_results/rq2/seed_42/model_artifacts.joblib
+2025-09-09 09:25:26,971 - INFO - Test datasets: 6
+2025-09-09 09:25:26,971 - INFO - Threshold mode: stealthy
+2025-09-09 09:25:27,013 - INFO - --------------------------------------------------
+2025-09-09 09:25:27,013 - INFO - Model artifacts
+2025-09-09 09:25:27,013 - INFO -   Path: experimental_results/rq2/seed_42/model_artifacts.joblib
+2025-09-09 09:25:27,013 - INFO -   Champion: svm
+2025-09-09 09:25:27,013 - INFO -   Type: supervised
+2025-09-09 09:25:27,013 - INFO -   Threshold (stealthy): 0.250
+2025-09-09 09:25:27,013 - INFO -   Final features (7):
+2025-09-09 09:25:27,013 - INFO -     - std_magnitude
+2025-09-09 09:25:27,013 - INFO -     - received_power
+2025-09-09 09:25:27,013 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:25:27,013 - INFO -     - spectral_flatness
+2025-09-09 09:25:27,013 - INFO -     - amplitude_kurtosis
+2025-09-09 09:25:27,013 - INFO -     - spectral_bandwidth
+2025-09-09 09:25:27,013 - INFO -     - spectral_rolloff
+2025-09-09 09:25:27,013 - INFO - --------------------------------------------------
+2025-09-09 09:25:27,013 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:25:27,023 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:27,026 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:27,027 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:28,754 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:25:28,754 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:28,755 - INFO -   Confusion Matrix: TP=165, FP=28, TN=172, FN=35
+2025-09-09 09:25:28,755 - INFO -   Accuracy: 0.843, F1: 0.840
+2025-09-09 09:25:28,755 - INFO -   FPR: 0.140, FNR: 0.175
+2025-09-09 09:25:28,755 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:25:28,757 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:28,758 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:28,758 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:30,452 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:25:30,452 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:30,452 - INFO -   Confusion Matrix: TP=200, FP=28, TN=172, FN=0
+2025-09-09 09:25:30,453 - INFO -   Accuracy: 0.930, F1: 0.935
+2025-09-09 09:25:30,453 - INFO -   FPR: 0.140, FNR: 0.000
+2025-09-09 09:25:30,453 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:25:30,456 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:30,456 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:30,456 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:32,371 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:25:32,371 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:32,371 - INFO -   Confusion Matrix: TP=200, FP=28, TN=172, FN=0
+2025-09-09 09:25:32,371 - INFO -   Accuracy: 0.930, F1: 0.935
+2025-09-09 09:25:32,371 - INFO -   FPR: 0.140, FNR: 0.000
+2025-09-09 09:25:32,371 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:25:32,376 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:32,377 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:32,377 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:34,220 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:25:34,220 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:34,220 - INFO -   Confusion Matrix: TP=200, FP=28, TN=172, FN=0
+2025-09-09 09:25:34,221 - INFO -   Accuracy: 0.930, F1: 0.935
+2025-09-09 09:25:34,221 - INFO -   FPR: 0.140, FNR: 0.000
+2025-09-09 09:25:34,221 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:25:34,224 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:34,224 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:34,224 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:36,075 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:25:36,075 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:36,075 - INFO -   Confusion Matrix: TP=69, FP=27, TN=173, FN=131
+2025-09-09 09:25:36,075 - INFO -   Accuracy: 0.605, F1: 0.466
+2025-09-09 09:25:36,075 - INFO -   FPR: 0.135, FNR: 0.655
+2025-09-09 09:25:36,075 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:25:36,078 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:36,079 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:36,079 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:37,811 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:25:37,811 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:37,811 - INFO -   Confusion Matrix: TP=200, FP=28, TN=172, FN=0
+2025-09-09 09:25:37,811 - INFO -   Accuracy: 0.930, F1: 0.935
+2025-09-09 09:25:37,811 - INFO -   FPR: 0.140, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: svm
+Threshold (stealthy): 0.250
+Datasets evaluated: 6
+2025-09-09 09:25:37,813 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation_stealthy_threshold/seed_42
+2025-09-09 09:25:38,623 - INFO - Logging to file: experimental_results/evaluation_stealthy_threshold/seed_123/robustness_evaluation.log
+2025-09-09 09:25:38,624 - INFO - Set random seeds to 42
+2025-09-09 09:25:38,624 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:25:38,624 - INFO - Model: experimental_results/rq2/seed_123/model_artifacts.joblib
+2025-09-09 09:25:38,624 - INFO - Test datasets: 6
+2025-09-09 09:25:38,624 - INFO - Threshold mode: stealthy
+2025-09-09 09:25:38,651 - INFO - --------------------------------------------------
+2025-09-09 09:25:38,651 - INFO - Model artifacts
+2025-09-09 09:25:38,651 - INFO -   Path: experimental_results/rq2/seed_123/model_artifacts.joblib
+2025-09-09 09:25:38,652 - INFO -   Champion: logistic_regression
+2025-09-09 09:25:38,652 - INFO -   Type: supervised
+2025-09-09 09:25:38,652 - INFO -   Threshold (stealthy): 0.368
+2025-09-09 09:25:38,652 - INFO -   Final features (7):
+2025-09-09 09:25:38,652 - INFO -     - std_magnitude
+2025-09-09 09:25:38,652 - INFO -     - received_power
+2025-09-09 09:25:38,652 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:25:38,652 - INFO -     - spectral_flatness
+2025-09-09 09:25:38,652 - INFO -     - amplitude_kurtosis
+2025-09-09 09:25:38,652 - INFO -     - spectral_bandwidth
+2025-09-09 09:25:38,652 - INFO -     - spectral_rolloff
+2025-09-09 09:25:38,652 - INFO - --------------------------------------------------
+2025-09-09 09:25:38,652 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:25:38,655 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:38,655 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:38,655 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:40,360 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:25:40,360 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:40,360 - INFO -   Confusion Matrix: TP=165, FP=29, TN=171, FN=35
+2025-09-09 09:25:40,360 - INFO -   Accuracy: 0.840, F1: 0.838
+2025-09-09 09:25:40,360 - INFO -   FPR: 0.145, FNR: 0.175
+2025-09-09 09:25:40,360 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:25:40,363 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:40,363 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:40,363 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:42,163 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:25:42,163 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:42,163 - INFO -   Confusion Matrix: TP=199, FP=29, TN=171, FN=1
+2025-09-09 09:25:42,163 - INFO -   Accuracy: 0.925, F1: 0.930
+2025-09-09 09:25:42,163 - INFO -   FPR: 0.145, FNR: 0.005
+2025-09-09 09:25:42,163 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:25:42,167 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:42,167 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:42,167 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:44,014 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:25:44,014 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:44,014 - INFO -   Confusion Matrix: TP=200, FP=29, TN=171, FN=0
+2025-09-09 09:25:44,014 - INFO -   Accuracy: 0.927, F1: 0.932
+2025-09-09 09:25:44,014 - INFO -   FPR: 0.145, FNR: 0.000
+2025-09-09 09:25:44,015 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:25:44,020 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:44,020 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:44,020 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:46,314 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:25:46,315 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:46,315 - INFO -   Confusion Matrix: TP=200, FP=29, TN=171, FN=0
+2025-09-09 09:25:46,315 - INFO -   Accuracy: 0.927, F1: 0.932
+2025-09-09 09:25:46,315 - INFO -   FPR: 0.145, FNR: 0.000
+2025-09-09 09:25:46,315 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:25:46,319 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:46,320 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:46,320 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:48,046 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:25:48,046 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:48,046 - INFO -   Confusion Matrix: TP=67, FP=24, TN=176, FN=133
+2025-09-09 09:25:48,046 - INFO -   Accuracy: 0.608, F1: 0.460
+2025-09-09 09:25:48,046 - INFO -   FPR: 0.120, FNR: 0.665
+2025-09-09 09:25:48,046 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:25:48,050 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:48,050 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:48,051 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:49,834 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:25:49,834 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:49,834 - INFO -   Confusion Matrix: TP=200, FP=29, TN=171, FN=0
+2025-09-09 09:25:49,834 - INFO -   Accuracy: 0.927, F1: 0.932
+2025-09-09 09:25:49,834 - INFO -   FPR: 0.145, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: logistic_regression
+Threshold (stealthy): 0.368
+Datasets evaluated: 6
+2025-09-09 09:25:49,837 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation_stealthy_threshold/seed_123
+2025-09-09 09:25:50,609 - INFO - Logging to file: experimental_results/evaluation_stealthy_threshold/seed_456/robustness_evaluation.log
+2025-09-09 09:25:50,609 - INFO - Set random seeds to 42
+2025-09-09 09:25:50,609 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:25:50,609 - INFO - Model: experimental_results/rq2/seed_456/model_artifacts.joblib
+2025-09-09 09:25:50,609 - INFO - Test datasets: 6
+2025-09-09 09:25:50,609 - INFO - Threshold mode: stealthy
+2025-09-09 09:25:50,732 - INFO - --------------------------------------------------
+2025-09-09 09:25:50,732 - INFO - Model artifacts
+2025-09-09 09:25:50,732 - INFO -   Path: experimental_results/rq2/seed_456/model_artifacts.joblib
+2025-09-09 09:25:50,732 - INFO -   Champion: gradient_boosting
+2025-09-09 09:25:50,732 - INFO -   Type: supervised
+2025-09-09 09:25:50,732 - INFO -   Threshold (stealthy): 0.235
+2025-09-09 09:25:50,732 - INFO -   Final features (7):
+2025-09-09 09:25:50,732 - INFO -     - std_magnitude
+2025-09-09 09:25:50,732 - INFO -     - received_power
+2025-09-09 09:25:50,732 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:25:50,732 - INFO -     - spectral_flatness
+2025-09-09 09:25:50,732 - INFO -     - amplitude_kurtosis
+2025-09-09 09:25:50,732 - INFO -     - spectral_bandwidth
+2025-09-09 09:25:50,732 - INFO -     - spectral_rolloff
+2025-09-09 09:25:50,732 - INFO - --------------------------------------------------
+2025-09-09 09:25:50,732 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:25:50,737 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:50,737 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:50,738 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:52,480 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:25:52,480 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:52,480 - INFO -   Confusion Matrix: TP=154, FP=32, TN=168, FN=46
+2025-09-09 09:25:52,480 - INFO -   Accuracy: 0.805, F1: 0.798
+2025-09-09 09:25:52,480 - INFO -   FPR: 0.160, FNR: 0.230
+2025-09-09 09:25:52,480 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:25:52,484 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:52,484 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:52,485 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:54,181 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:25:54,181 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:54,181 - INFO -   Confusion Matrix: TP=199, FP=32, TN=168, FN=1
+2025-09-09 09:25:54,181 - INFO -   Accuracy: 0.917, F1: 0.923
+2025-09-09 09:25:54,181 - INFO -   FPR: 0.160, FNR: 0.005
+2025-09-09 09:25:54,181 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:25:54,184 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:54,185 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:54,185 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:55,887 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:25:55,887 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:55,887 - INFO -   Confusion Matrix: TP=200, FP=32, TN=168, FN=0
+2025-09-09 09:25:55,887 - INFO -   Accuracy: 0.920, F1: 0.926
+2025-09-09 09:25:55,887 - INFO -   FPR: 0.160, FNR: 0.000
+2025-09-09 09:25:55,887 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:25:55,890 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:55,891 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:55,891 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:57,626 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:25:57,626 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:57,626 - INFO -   Confusion Matrix: TP=200, FP=32, TN=168, FN=0
+2025-09-09 09:25:57,626 - INFO -   Accuracy: 0.920, F1: 0.926
+2025-09-09 09:25:57,626 - INFO -   FPR: 0.160, FNR: 0.000
+2025-09-09 09:25:57,626 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:25:57,628 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:57,629 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:57,629 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:25:59,522 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:25:59,522 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:25:59,522 - INFO -   Confusion Matrix: TP=82, FP=34, TN=166, FN=118
+2025-09-09 09:25:59,522 - INFO -   Accuracy: 0.620, F1: 0.519
+2025-09-09 09:25:59,522 - INFO -   FPR: 0.170, FNR: 0.590
+2025-09-09 09:25:59,522 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:25:59,526 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:25:59,527 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:25:59,527 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:01,237 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:26:01,237 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:01,237 - INFO -   Confusion Matrix: TP=200, FP=32, TN=168, FN=0
+2025-09-09 09:26:01,237 - INFO -   Accuracy: 0.920, F1: 0.926
+2025-09-09 09:26:01,237 - INFO -   FPR: 0.160, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: gradient_boosting
+Threshold (stealthy): 0.235
+Datasets evaluated: 6
+2025-09-09 09:26:01,239 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation_stealthy_threshold/seed_456
+2025-09-09 09:26:02,077 - INFO - Logging to file: experimental_results/evaluation_stealthy_threshold/seed_789/robustness_evaluation.log
+2025-09-09 09:26:02,077 - INFO - Set random seeds to 42
+2025-09-09 09:26:02,077 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:26:02,077 - INFO - Model: experimental_results/rq2/seed_789/model_artifacts.joblib
+2025-09-09 09:26:02,077 - INFO - Test datasets: 6
+2025-09-09 09:26:02,077 - INFO - Threshold mode: stealthy
+2025-09-09 09:26:02,107 - INFO - --------------------------------------------------
+2025-09-09 09:26:02,107 - INFO - Model artifacts
+2025-09-09 09:26:02,107 - INFO -   Path: experimental_results/rq2/seed_789/model_artifacts.joblib
+2025-09-09 09:26:02,107 - INFO -   Champion: logistic_regression
+2025-09-09 09:26:02,107 - INFO -   Type: supervised
+2025-09-09 09:26:02,107 - INFO -   Threshold (stealthy): 0.250
+2025-09-09 09:26:02,107 - INFO -   Final features (7):
+2025-09-09 09:26:02,107 - INFO -     - std_magnitude
+2025-09-09 09:26:02,107 - INFO -     - received_power
+2025-09-09 09:26:02,107 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:26:02,107 - INFO -     - spectral_flatness
+2025-09-09 09:26:02,107 - INFO -     - amplitude_kurtosis
+2025-09-09 09:26:02,107 - INFO -     - spectral_bandwidth
+2025-09-09 09:26:02,107 - INFO -     - spectral_rolloff
+2025-09-09 09:26:02,107 - INFO - --------------------------------------------------
+2025-09-09 09:26:02,107 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:26:02,110 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:02,111 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:02,111 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:03,862 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:26:03,862 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:03,862 - INFO -   Confusion Matrix: TP=189, FP=67, TN=133, FN=11
+2025-09-09 09:26:03,862 - INFO -   Accuracy: 0.805, F1: 0.829
+2025-09-09 09:26:03,862 - INFO -   FPR: 0.335, FNR: 0.055
+2025-09-09 09:26:03,862 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:26:03,865 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:03,865 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:03,866 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:05,595 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:26:05,595 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:05,595 - INFO -   Confusion Matrix: TP=200, FP=67, TN=133, FN=0
+2025-09-09 09:26:05,595 - INFO -   Accuracy: 0.833, F1: 0.857
+2025-09-09 09:26:05,595 - INFO -   FPR: 0.335, FNR: 0.000
+2025-09-09 09:26:05,595 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:26:05,599 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:05,599 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:05,599 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:07,281 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:26:07,282 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:07,282 - INFO -   Confusion Matrix: TP=200, FP=67, TN=133, FN=0
+2025-09-09 09:26:07,282 - INFO -   Accuracy: 0.833, F1: 0.857
+2025-09-09 09:26:07,282 - INFO -   FPR: 0.335, FNR: 0.000
+2025-09-09 09:26:07,282 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:26:07,286 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:07,286 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:07,286 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:08,976 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:26:08,976 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:08,976 - INFO -   Confusion Matrix: TP=200, FP=67, TN=133, FN=0
+2025-09-09 09:26:08,976 - INFO -   Accuracy: 0.833, F1: 0.857
+2025-09-09 09:26:08,976 - INFO -   FPR: 0.335, FNR: 0.000
+2025-09-09 09:26:08,976 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:26:08,979 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:08,979 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:08,979 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:10,672 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:26:10,672 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:10,673 - INFO -   Confusion Matrix: TP=149, FP=70, TN=130, FN=51
+2025-09-09 09:26:10,673 - INFO -   Accuracy: 0.698, F1: 0.711
+2025-09-09 09:26:10,673 - INFO -   FPR: 0.350, FNR: 0.255
+2025-09-09 09:26:10,673 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:26:10,676 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:10,676 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:10,676 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:12,381 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:26:12,381 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:12,381 - INFO -   Confusion Matrix: TP=200, FP=67, TN=133, FN=0
+2025-09-09 09:26:12,381 - INFO -   Accuracy: 0.833, F1: 0.857
+2025-09-09 09:26:12,381 - INFO -   FPR: 0.335, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: logistic_regression
+Threshold (stealthy): 0.250
+Datasets evaluated: 6
+2025-09-09 09:26:12,382 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation_stealthy_threshold/seed_789
+2025-09-09 09:26:13,167 - INFO - Logging to file: experimental_results/evaluation_stealthy_threshold/seed_999/robustness_evaluation.log
+2025-09-09 09:26:13,168 - INFO - Set random seeds to 42
+2025-09-09 09:26:13,168 - INFO - Evaluation and Robustness Analysis
+2025-09-09 09:26:13,168 - INFO - Model: experimental_results/rq2/seed_999/model_artifacts.joblib
+2025-09-09 09:26:13,168 - INFO - Test datasets: 6
+2025-09-09 09:26:13,168 - INFO - Threshold mode: stealthy
+2025-09-09 09:26:13,196 - INFO - --------------------------------------------------
+2025-09-09 09:26:13,196 - INFO - Model artifacts
+2025-09-09 09:26:13,196 - INFO -   Path: experimental_results/rq2/seed_999/model_artifacts.joblib
+2025-09-09 09:26:13,196 - INFO -   Champion: svm
+2025-09-09 09:26:13,196 - INFO -   Type: supervised
+2025-09-09 09:26:13,196 - INFO -   Threshold (stealthy): 0.087
+2025-09-09 09:26:13,196 - INFO -   Final features (7):
+2025-09-09 09:26:13,196 - INFO -     - std_magnitude
+2025-09-09 09:26:13,196 - INFO -     - received_power
+2025-09-09 09:26:13,196 - INFO -     - peak_to_avg_ratio
+2025-09-09 09:26:13,196 - INFO -     - spectral_flatness
+2025-09-09 09:26:13,196 - INFO -     - amplitude_kurtosis
+2025-09-09 09:26:13,196 - INFO -     - spectral_bandwidth
+2025-09-09 09:26:13,196 - INFO -     - spectral_rolloff
+2025-09-09 09:26:13,196 - INFO - --------------------------------------------------
+2025-09-09 09:26:13,196 - INFO - Evaluating on jamming_features_research_stealthy_test
+2025-09-09 09:26:13,200 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:13,200 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:13,200 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:14,914 - INFO - Results for jamming_features_research_stealthy_test:
+2025-09-09 09:26:14,914 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:14,914 - INFO -   Confusion Matrix: TP=170, FP=47, TN=153, FN=30
+2025-09-09 09:26:14,914 - INFO -   Accuracy: 0.807, F1: 0.815
+2025-09-09 09:26:14,914 - INFO -   FPR: 0.235, FNR: 0.150
+2025-09-09 09:26:14,914 - INFO - Evaluating on jamming_features_research_moderate_test
+2025-09-09 09:26:14,917 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:14,917 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:14,918 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:16,611 - INFO - Results for jamming_features_research_moderate_test:
+2025-09-09 09:26:16,611 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:16,611 - INFO -   Confusion Matrix: TP=200, FP=47, TN=153, FN=0
+2025-09-09 09:26:16,611 - INFO -   Accuracy: 0.882, F1: 0.895
+2025-09-09 09:26:16,611 - INFO -   FPR: 0.235, FNR: 0.000
+2025-09-09 09:26:16,611 - INFO - Evaluating on jamming_features_research_severe_test
+2025-09-09 09:26:16,615 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:16,615 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:16,615 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:18,303 - INFO - Results for jamming_features_research_severe_test:
+2025-09-09 09:26:18,303 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:18,303 - INFO -   Confusion Matrix: TP=200, FP=47, TN=153, FN=0
+2025-09-09 09:26:18,303 - INFO -   Accuracy: 0.882, F1: 0.895
+2025-09-09 09:26:18,303 - INFO -   FPR: 0.235, FNR: 0.000
+2025-09-09 09:26:18,303 - INFO - Evaluating on jamming_features_research_critical_test
+2025-09-09 09:26:18,307 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:18,308 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:18,308 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:20,099 - INFO - Results for jamming_features_research_critical_test:
+2025-09-09 09:26:20,100 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:20,100 - INFO -   Confusion Matrix: TP=200, FP=47, TN=153, FN=0
+2025-09-09 09:26:20,100 - INFO -   Accuracy: 0.882, F1: 0.895
+2025-09-09 09:26:20,100 - INFO -   FPR: 0.235, FNR: 0.000
+2025-09-09 09:26:20,100 - INFO - Evaluating on jamming_features_research_ultra_stealthy_test
+2025-09-09 09:26:20,102 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:20,102 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:20,103 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:21,810 - INFO - Results for jamming_features_research_ultra_stealthy_test:
+2025-09-09 09:26:21,810 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:21,810 - INFO -   Confusion Matrix: TP=88, FP=33, TN=167, FN=112
+2025-09-09 09:26:21,810 - INFO -   Accuracy: 0.637, F1: 0.548
+2025-09-09 09:26:21,810 - INFO -   FPR: 0.165, FNR: 0.560
+2025-09-09 09:26:21,810 - INFO - Evaluating on jamming_features_research_ultra_strong_test
+2025-09-09 09:26:21,814 - INFO - Converting multiclass to binary: [np.int64(0), np.int64(1), np.int64(2)] → [0,1]
+2025-09-09 09:26:21,814 - INFO - Binary dataset prepared: 400 samples
+2025-09-09 09:26:21,814 - INFO - Class distribution: {0: 200, 1: 200}
+2025-09-09 09:26:23,502 - INFO - Results for jamming_features_research_ultra_strong_test:
+2025-09-09 09:26:23,502 - INFO -   Samples: 400 (Normal: 200, RIS: 200)
+2025-09-09 09:26:23,502 - INFO -   Confusion Matrix: TP=200, FP=47, TN=153, FN=0
+2025-09-09 09:26:23,502 - INFO -   Accuracy: 0.882, F1: 0.895
+2025-09-09 09:26:23,502 - INFO -   FPR: 0.235, FNR: 0.000
+
+Evaluation and Robustness Analysis Results
+Champion: svm
+Threshold (stealthy): 0.087
+Datasets evaluated: 6
+2025-09-09 09:26:23,503 - INFO - Evaluation complete. Results saved to: experimental_results/evaluation_stealthy_threshold/seed_999
