@@ -222,7 +222,7 @@ src/ contains helper classes for my ML pipeline: data_handler.py, models.py, tim
 ### Other
 
 - The `datasets` folder contain train (train_jamming_features_research.csv) and test datasets (\*\_test.csv)
-- For transparency, you can find the folder of the full experimental results output used for analysis and reported in dissertation. This is located in `experimental_results` folder. Subfolder 'rq2' was for RQ2, '
+- For transparency, you can find the folder of the full experimental results output used for analysis and reported in dissertation. This is located in `experimental_results` folder. Subfolder 'rq2' was for RQ2, 'eval' was for evaluation (RQ3) standard threhsold, 'eval_stealthy_threshold' was for evaluation (RQ3) stealthy threshold. and 'active_jamming' for comparison
 
 ## References
 
