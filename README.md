@@ -19,6 +19,40 @@ This repository contains the source code for Dissertation 'Machine Learning Anom
 - 4GB+ free disk space
 
 ## Project Structure
+ris_jamming_anomaly_detection/
+├── datasets/
+│   ├── jamming_features_research_train  # CSV test datasets
+│   └── jamming_features_research_moderate_test.csv
+      ...
+├── experimental_results/
+│   ├── rq2/  # supervised learning model artifacts and JSON
+│   ├── eval/                 # standard-policy JSON/CSV
+│   ├── eval_stealthy_threshold/ # stealthy-policy JSON/CSV
+│   └── feature_analysis/     # generated plots
+├── figures/                  # paper-ready figures copied from experimental_results/figures
+├── matlab/                   # MATLAB validation, simulation, signal generation scripts
+│   ├── signals/ # store raw signal files .mat
+│   ├── pre_generated_validation_figures/ # Validation plots
+│   ├── validation_script.m
+│   ├── ris_vs_active_jamming_signal_comparison.m
+│   ├── solve_ris_jamming_optimisation.m
+│   ├── generate_raw_signals_stratified.m
+│   ├── extract_features_research.m
+│   ├── generate_features_research.m
+│   ├── (...other pngs and plots produced from MATLAB for report)
+├── src/  # Helper classes for ML pipeline
+│   ├── data_handler/
+│   ├── models/
+│   ├── features/
+│   ├── utils/
+│   ├── timing/
+│   └── __init__.py
+├── aggregate_seeds.py
+├── evaluation.py
+├── feature_analysis.py
+├── supervised_detection.py
+├── requirements.txt
+├── README.md
 
 ### MATLAB
 
