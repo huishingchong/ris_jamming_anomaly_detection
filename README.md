@@ -1,27 +1,34 @@
 # ris_jamming_anomaly_detection
 
-Source code for Dissertation 'Machine Learning Anomaly Detection for Illegitimate RIS-based Jamming Attacks'
 Author: Hui Shing Chong
+
 Date: September 2025
-Submitted in partial fulfillment of the requirements for the degree in Computing(Security & Reliability) MSc of Imperial College London
+
+Submitted in partial fulfillment of the requirements for the degree in Computing (Security & Reliability) MSc of Imperial College London
+
+## Summary
+
+This repository contains the source code for Dissertation 'Machine Learning Anomaly Detection for Illegitimate RIS-based Jamming Attacks'. We explore how we can use ML models to detect RIS-based jamming, an attack that causes destructive interference on the receiver.
 
 ## Quick Start
 
 ### Prerequisites
 
-- Python 3.8+
-- MATLAB R2025a (optional, for full functionality)
+- Python 3.11
+- MATLAB R2025a (recommended)
 - 4GB+ free disk space
 
 ## Project Structure
 
 ### MATLAB
 
-MATLAB (.mat files) is used during the implementation of Lyu et al's [1] RIS-based jamming algorithm and its validation. For our ML pipeline, MATLAB scripts are also used to generate raw signals for training and test (stored in .mat), then converting them to datasets (.csv) for ML detection.
+MATLAB is used during the implementation of Lyu et al's [1] RIS-based jamming algorithm and its validation. The scripts are .m files which can only be run on MATLAB. For our ML pipeline, MATLAB scripts are also used to generate raw signals for training and test (stored in .mat), then converting them to datasets (CSVs) for ML detection.
+
+The MATLAB (.m) files are provided so you can generate your own signals and ML datasets with custom configurations, just keep in mind the input/output directory configuration which is usually at the top of the scripts. You don't need to rerun the generation scripts as all the CSV files (ML datasets) are provided here. .mat files (raw signals) are not able to fit therefore will be provided in a Google Drive. They can be run directly with python scripts provided the input path and file name is configured correctly.
 
 ### Python
 
-Python scripts are then used for the remaining of the pipeline - using the csv datasets for training, evaluation and produce experimental results.
+Python scripts are used for ML training, evaluation and Experimental Results.
 
 ## Installation
 
@@ -32,33 +39,38 @@ Python scripts are then used for the remaining of the pipeline - using the csv d
    cd ris_jamming_anomaly_detection
    ```
 
-2. `pip3 install requirements.txt`
+2. Create virtual environment and install dependencies:
 
-3. Run MATLAB scripts by opening directory on MATLAB software, usually calling the script on the command window. MATLAB beginner-friendly guide here: https://matlabacademy.mathworks.com/details/matlab-onramp/gettingstarted
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   pip3 install -r requirements.txt
+   ```
 
-4. Run python scripts in the current directory to run your training and evaluation of models. This is used for experimental results
+3. You can run MATLAB scripts by opening directory on MATLAB software, usually calling the script on the command window.
 
-For file explanations refer to the `File/Folder Explanations` section below for helpful descriptions on how to run each script and what to expect.
+- On MATLAB, at the top where you can configure your folder path, ensure you are in the local copy of this directory (cloned this repository) and inside the `matlab` folder in this repository, alternatively, you can use the Command Window `cd matlab`. You should see that you can open the .m files on the left.
+- MATLAB beginner-friendly guide here: https://matlabacademy.mathworks.com/details/matlab-onramp/gettingstarted
+
+4. Run python scripts in the current directory to execute the training and evaluation of models for detecting RIS-based jamming attacks.
+
+For both MATLAB and Python scripts, consult the `File/Folder Explanations` section below for helpful descriptions on how to run each script and what to expect.
 
 ## Dependencies
 
 ### CVX - Convex Optimization Toolbox
 
 To run the RIS-based jamming simulation (e.g. validation_script.m, generate_raw_signals_stratified.m) on MATLAB, CVX is needed, which is a tool used for convex optimisation, as part of the algorithm described by Lyu et al. [1]
-The CVX module is included in this repository for your convenience. **To set up** cd to the cvx directory and run cvx_setup, ensure you see that a cvx mode is available.
 
-If this approach doesn't work for your system, users can alternatively install CVX system-wide.
+1. To download: https://github.com/cvxr/CVX/releases (get the version 2.2)
+2. Extract CVX into a directory e.g. ~/MATLAB/cvx
+3. In MATLAB (command window), you will need to navigate into the CVX folder e.g. `cd ~/MATLAB/cvx`
+4. Next you need to run `cvx_setup`
+5. This registers CVX with MATLAB. To further verify the installation: Run `cvx_version`, you should see Version 2.2 listed.
 
-- **Location**: `matlab/external/cvx/`
-- **Version**: 2.1
-- **License**: GPL
-- **Purpose**: Semi-definite relaxation optimization for RIS phase design
-- **Citation**: Grant & Boyd, CVX: Matlab software for disciplined convex programming
-- **Website**: http://cvxr.com/cvx/
+- **Note:** if you move the cvx folder you need to follow steps 3-5 again. You don't need to run `cvx_setup` all the time, its connection usually persist throughout MATLAB session. If the RIS jamming optimisation script doesn't work as intended, you may need to do Steps 3-5.
 
-To download: https://github.com/cvxr/CVX/releases
-
-Note: For mac users trying to donwload this: CVX installation may require allowing unverified applications through System Preferences > Security \& Privacy due to MacOS protection policies: https://macpaw.com/how-to/fix-macos-cannot-verify-that-app-is-free-from-malware OS might prevent cvx from being downloaded
+- **Note for mac users:** CVX installation may require allowing unverified applications through System Preferences > Security \& Privacy due to MacOS protection policies. Helpful guide: https://macpaw.com/how-to/fix-macos-cannot-verify-that-app-is-free-from-malware
 
 ### MATLAB
 
@@ -101,6 +113,7 @@ generate_features_dataset_research.m
 
 - Generates datasets ready for ML training or testing, for experimental results
 - Run `generate_features_dataset_research` directly in command window, but ensure correct input path to the .mat file and note the output directory
+- Raw signal files used for this research are in the signal folder (contains the test set).
 - Input: .mat file, Output: .csv file
 
 extract_features_dataset.m
@@ -112,27 +125,75 @@ Other helper standalone scripts: distribution_analysis.m, explore_mat_file.m whi
 
 ### Python
 
-In src:
+To reproduce my Experiemntal Results:
+feature_analysis.py
 
-- data_handler.py
-- models.py
--
+```python3 feature_analysis.py --csv datasets/jamming_features_research.csv --binary --output experimental_results/feature_analysis
+
+```
+
+supervised_detection.py
+
+- Load dataset (train/val/test splits), prepare features and train supervised learning models
+- Per seed, creates model_artifacts.joblib and experiment_results.json containing the configuration and model & threshold selection, and val/test metrics
+
+```python3 supervised_detection.py \
+  --csv datasets/train_jamming_features_research.csv \
+  --output results/rq2 \
+  --seeds 42 123 456 789 999 \
+  --standard-target-fpr 0.10 \
+  --standard-guard 0.02 \
+  --stealthy-target-fnr 0.10 \
+  --stealthy-guard 0.02 \
+  --stealthy-weight 2.0 \
+  --calibration-method isotonic --bootstrap-iters 1000 --enable-tuning
+```
+
+- The output path is where you will store model artifacts and json record of the training
+- `--enable-tuning` turns on model hyperparameter tuning which might take a while, to disable, simply run without the flag
+
+evaluation.py
+
+- Run models across the seeds against test datasets, collects metrics extensively for reporting
+- Runs models against test CSVs and output performance results: evaluation_complete_results.json
+
+- For evaluating model on standard threshold:
+
+```
+for seed in 42 123 456 789 999; do python3 evaluation.py --model results/rq2/seed_${seed}/model_artifacts.joblib --bootstrap-iters 1000 --test-csvs datasets/jamming_features_research_stealthy_test.csv datasets/jamming_features_research_moderate_test.csv datasets/jamming_features_research_severe_test.csv datasets/jamming_features_research_critical_test.csv datasets/jamming_features_research_ultra_stealthy_test.csv datasets/jamming_features_research_ultra_strong_test.csv --output results/evaluation_standard_threshold/seed_${seed}; done
+```
+
+- For evaluating model on stealthy-optimised threshold:
+
+```
+for seed in 42 123 456 789 999; do python3 evaluation.py --threshold-mode stealthy --model results/rq2/seed_${seed}/model_artifacts.joblib --bootstrap-iters 1000 --test-csvs datasets/jamming_features_research_stealthy_test.csv datasets/jamming_features_research_moderate_test.csv datasets/jamming_features_research_severe_test.csv datasets/jamming_features_research_critical_test.csv datasets/jamming_features_research_ultra_stealthy_test.csv datasets/jamming_features_research_ultra_strong_test.csv --output results/evaluation_stealthy_threshold/seed_${seed}; done
+```
+
+Where --model is the path to the stored model artifacts and output is the path to where evaluation results are stored (recommend to keep seperate)
+
+aggregate_seeds.py
+
+- Script to consolidate/aggregate/summarise results across the multiple seed runs, for organisation and some plots
+
+```
+python3 aggregate_seeds.py --training-root results/rq2 --standard-root results/evaluation_standard_threshold --stealthy-root results/evaluation_stealthy_threshold --outdir results/aggregate_results
+```
+
+src/ contains helper classes for my ML pipeline: data_handler.py, models.py, timing.py, metrics.py and utils.py
+
+**Note** for the runs, output directory set to results/ different so it doesn't override my experimental results
 
 ### Other
 
-- datasets
-- For transparency, you can find the folder of the full experimental result run used and reported in dissertation. This is located at `experimental_results`
+- The `datasets` folder contain train (train_jamming_features_research.csv) and test datasets (\*\_test.csv)
+- For transparency, you can find the folder of the full experimental results output used for analysis and reported in dissertation. This is located in `experimental_results` folder. Subfolder 'rq2' was for RQ2, '
 
 ## References
 
-1. Lyu et al. "RIS-Based Wireless Jamming Attacks" IEEE Wireless Communications Letters 2020
+1. Lyu et al. "RIS-Based Wireless Jamming Attacks" IEEE Wireless Communications Letters 2020, IEEE Wireless Communications Letters, vol. 9, no. 10, pp. 1663-1667, Oct. 2020.
 
 ---
 
 ## Important
 
-## This is only for academic research use.
-
-**Note**: This platform is designed for academic research on RIS security. Ensure ethical use and compliance with applicable regulations.
-
-All scripts and steps to reproduce the above to get this running is ran on Macbook. Tested on...
+This is only for academic research use.
