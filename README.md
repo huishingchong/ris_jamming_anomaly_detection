@@ -125,10 +125,11 @@ Other helper standalone scripts: distribution_analysis.m, explore_mat_file.m whi
 
 ### Python
 
-To reproduce my Experiemntal Results:
+To reproduce my Experimental Results:
 feature_analysis.py
 
-```python3 feature_analysis.py --csv datasets/jamming_features_research.csv --binary --output experimental_results/feature_analysis
+```
+python3 feature_analysis.py --csv datasets/jamming_features_research.csv --binary --output experimental_results/feature_analysis
 
 ```
 
