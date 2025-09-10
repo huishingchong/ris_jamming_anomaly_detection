@@ -19,6 +19,8 @@ This repository contains the source code for Dissertation 'Machine Learning Anom
 - 4GB+ free disk space
 
 ## Project Structure
+<details>
+
 ris_jamming_anomaly_detection/
 ├── datasets/
 │   ├── jamming_features_research_train  # CSV test datasets
@@ -53,6 +55,7 @@ ris_jamming_anomaly_detection/
 ├── supervised_detection.py
 ├── requirements.txt
 ├── README.md
+</details>
 
 ### MATLAB
 
