@@ -21,6 +21,7 @@ from data_handler import (
 )
 from utils import set_random_seeds, setup_logging, make_json_serialisable
 from metrics import analyse_band_performance
+from timing import measure_inference_latency
 
 warnings.filterwarnings('ignore')
 
@@ -182,11 +183,89 @@ def evaluate_model_performance(model, threshold: float, X_test: np.ndarray, y_te
         'threshold_used': float(threshold)
     }
 
+
+def _bootstrap_ci_for_threshold(y_true, y_scores, threshold, iters=1000, seed=42):
+    """Compute bootstrap confidence intervals for metrics at given threshold"""
+    rng = np.random.default_rng(seed)
+    n = len(y_true)
+    f1s, fprs, fnrs, recs, precs, accs = [], [], [], [], [], []
+    
+    for _ in range(iters):
+        idx = rng.integers(0, n, size=n)
+        yt = y_true[idx]
+        ys = y_scores[idx]
+        yhat = (ys >= threshold).astype(int)
+        
+        # Use existing comprehensive metrics function
+        from metrics import compute_comprehensive_metrics
+        m = compute_comprehensive_metrics(yt, yhat, ys)
+        f1s.append(m["f1"]); fprs.append(m["fpr"]); fnrs.append(m["fnr"])
+        recs.append(m["recall"]); precs.append(m["precision"]); accs.append(m["accuracy"])
+    
+    def stats(a):
+        a = np.asarray(a, dtype=float)
+        return {
+            "mean": float(np.nanmean(a)),
+            "std": float(np.nanstd(a)),
+            "lower_95": float(np.nanpercentile(a, 2.5)),
+            "upper_95": float(np.nanpercentile(a, 97.5)),
+        }
+    
+    return {
+        "f1": stats(f1s),
+        "fpr": stats(fprs),
+        "fnr": stats(fnrs),
+        "recall": stats(recs),
+        "precision": stats(precs),
+        "accuracy": stats(accs),
+    }
+
+def _bootstrap_auc_ci(y_true, y_scores, iters=1000, seed=42, metric="roc", model_type="supervised"):
+    """
+    Percentile bootstrap CI for AUC-type metrics.
+    Returns a dict with keys: mean, std, lower_95, upper_95
+    """
+    rng = np.random.default_rng(seed)
+    y_true = np.asarray(y_true)
+    y_scores = np.asarray(y_scores)
+
+    if model_type == 'unsupervised':
+        smin, smax = y_scores.min(), y_scores.max()
+        y_scores = (y_scores - smin) / (smax - smin + 1e-8)
+
+    n = len(y_true)
+    if n == 0:
+        return {"mean": float("nan"), "std": float("nan"),
+                "lower_95": float("nan"), "upper_95": float("nan")}
+
+    scorer = roc_auc_score if metric == "roc" else average_precision_score
+    vals = []
+
+    for _ in range(iters):
+        idx = rng.integers(0, n, size=n)
+        yt = y_true[idx]
+        ys = y_scores[idx]
+        if yt.max() == yt.min():
+            continue
+        vals.append(scorer(yt, ys))
+
+    if not vals:
+        return {"mean": float("nan"), "std": float("nan"),
+                "lower_95": float("nan"), "upper_95": float("nan")}
+
+    vals = np.asarray(vals, dtype=float)
+    return {
+        "mean": float(np.nanmean(vals)),
+        "std": float(np.nanstd(vals, ddof=1)),
+        "lower_95": float(np.nanpercentile(vals, 2.5)),
+        "upper_95": float(np.nanpercentile(vals, 97.5)),
+    }
+
 class ModelEvaluator:
     """Evaluator for trained models on test datasets."""
     
     def __init__(self, model, threshold: float, features: List[str], model_type: str, 
-                 champion_name: str, threshold_mode: str, seed: int = 42):
+                 champion_name: str, threshold_mode: str, seed: int = 42, bootstrap_iters: int = 0):
         self.model = model
         self.threshold = threshold
         self.features = features
@@ -195,9 +274,10 @@ class ModelEvaluator:
         self.threshold_mode = threshold_mode
         self.logger = logging.getLogger(__name__)
         self.seed = seed
+        self.bootstrap_iters = bootstrap_iters
 
     def evaluate_dataset(self, csv_path: Path) -> Dict:
-        """Evaluate model on test dataset."""
+        """Evaluate model on test dataset"""
         dataset_name = csv_path.stem
         self.logger.info(f"Evaluating on {dataset_name}")
         
@@ -219,9 +299,39 @@ class ModelEvaluator:
         performance = evaluate_model_performance(
             self.model, self.threshold, X_test_selected, y_test, self.model_type
         )
+
+        # Measure inference latency per-sample (median over multiple runs)
+        try:
+            lat = measure_inference_latency(self.model, X_test_selected, n_runs=30, warmup_runs=5)
+            test_latency = {
+                "median_ms_per_sample": float(lat.median_ms),
+                "n_timing_runs": int(lat.n_samples)
+            }
+        except Exception as e:
+            self.logger.warning(f"Latency measurement failed: {e}")
+            test_latency = {
+                "median_ms_per_sample": float("nan"),
+                "n_timing_runs": 0
+            }
         
         # Band analysis
-        y_pred = (get_model_scores(self.model, X_test_selected, self.model_type) >= self.threshold).astype(int)
+        # get scores for both predictions and bootstrap
+        y_scores = get_model_scores(self.model, X_test_selected, self.model_type)
+        y_pred = (y_scores >= self.threshold).astype(int)
+
+        bootstrap_ci = None
+        if self.bootstrap_iters > 0:
+            bootstrap_ci = _bootstrap_ci_for_threshold(
+                y_test, y_scores, self.threshold, 
+                iters=self.bootstrap_iters, seed=self.seed
+            )
+        
+        roc_auc_ci = None
+        pr_auc_ci = None
+        if getattr(self, "bootstrap_iters", 0) and self.bootstrap_iters > 0:
+            roc_auc_ci = _bootstrap_auc_ci(y_test, y_scores, iters=self.bootstrap_iters, seed=self.seed, metric="roc", model_type=self.model_type)
+            pr_auc_ci  = _bootstrap_auc_ci(y_test, y_scores, iters=self.bootstrap_iters, seed=self.seed, metric="pr", model_type=self.model_type)
+
         band_breakdown = analyse_band_performance(df, y_test, y_pred)
         
         # Calculate aggregate band metrics
@@ -246,6 +356,14 @@ class ModelEvaluator:
                 'band_breakdown': band_breakdown,
                 'band_none_fpr': band_none_fpr,
                 'band_positive_fnr': band_positive_fnr,
+                'confidence_intervals': bootstrap_ci,
+                'bootstrap_auc': {
+                    'roc_auc': roc_auc_ci,
+                    'pr_auc': pr_auc_ci,
+                    'iters': int(self.bootstrap_iters),
+                    'seed': int(self.seed),
+                } if self.bootstrap_iters > 0 else None,
+                'test_latency': test_latency,
             }
         }
         
@@ -265,8 +383,8 @@ def main():
     parser.add_argument('--test-csvs', nargs='+', required=True, help='Test dataset CSV files')
     parser.add_argument('--output', default='results/', help='Output directory')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
-    parser.add_argument('--threshold-mode', choices=['standard', 'stealthy'], default='standard', 
-                       help='Which threshold to use from detection artifacts')
+    parser.add_argument('--threshold-mode', choices=['standard', 'stealthy'], default='standard', help='Which threshold to use from detection artifacts')
+    parser.add_argument('--bootstrap-iters', type=int, default=0, help='If >0, compute bootstrap CIs on evaluation metrics with this many resamples')
     
     args = parser.parse_args()
     
@@ -290,8 +408,9 @@ def main():
         )
         
         evaluator = ModelEvaluator(
-            model, threshold, features, model_type, champion_name, args.threshold_mode, args.seed
+            model, threshold, features, model_type, champion_name, args.threshold_mode, args.seed, args.bootstrap_iters
         )
+        setattr(evaluator, "bootstrap_iters", int(args.bootstrap_iters))
         
         # Evaluate each test dataset
         all_results = []
