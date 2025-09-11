@@ -179,10 +179,10 @@ To reproduce my Experimental Results:
 **feature_analysis.py**
 
 ```
-python3 feature_analysis.py --csv datasets/jamming_features_research.csv --binary --output experimental_results/feature_analysis
+python3 feature_analysis.py --csv datasets/train_jamming_features_research.csv --binary --output experimental_results/feature_analysis
 
 ```
-
+In the output directory specified, you will see the plots analysing features in the training dataset - feature correlation, feautre importance, distribution figures.
 
 **supervised_detection.py**
 
@@ -231,10 +231,10 @@ Where --model is the path to the stored model artifacts and output is the path t
 - Script to consolidate/aggregate/summarise results across the multiple seed runs, for organisation and some plots
 
 ```
-python3 aggregate_seeds.py --training-root results/rq2 --standard-root results/evaluation_standard_threshold --stealthy-root results/evaluation_stealthy_threshold --outdir results/aggregate_results
+python3 aggregate_seeds.py --training-root results/rq2 --standard-root results/evaluation_standard_threshold --stealthy-root results/evaluation_stealthy_threshold --outdir results/
 ```
 
-src/ contains helper classes for my ML pipeline: data_handler.py, models.py, timing.py, metrics.py and utils.py
+src/ contains helper classes for the ML pipeline: data_handler.py, models.py, timing.py, metrics.py and utils.py
 
 **Note** for the runs, output directory set to results/ different folder so it doesn't override my experimental results output folder (experimental_results/)
 
