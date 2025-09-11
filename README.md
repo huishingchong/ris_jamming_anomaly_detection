@@ -157,6 +157,7 @@ extract_features_dataset.m
 - Not standalone script to run
 
 Other helper standalone scripts: distribution_analysis.m, explore_mat_file.m which I used for checks
+For the raw signals .mat files used for this project, you would need to download the ZIP file (which was too big to upload here) from the shared Google Drive link (more details in the dissertation report). Please download the and extract the ZIP and place it in a the signals folder in the matlab folder of the directory.
 
 ### Python
 
@@ -173,7 +174,8 @@ supervised_detection.py
 - Load dataset (train/val/test splits), prepare features and train supervised learning models
 - Per seed, creates model_artifacts.joblib and experiment_results.json containing the configuration and model & threshold selection, and val/test metrics
 
-```python3 supervised_detection.py \
+```
+python3 supervised_detection.py \
   --csv datasets/train_jamming_features_research.csv \
   --output results/rq2 \
   --seeds 42 123 456 789 999 \
