@@ -167,6 +167,7 @@ Other important libraries used is scikit-learn for ML pipeline, matplotlib for p
 - Not standalone script to run
 
 Other helper standalone scripts: distribution_analysis.m, explore_mat_file.m which I used for checks
+
 To access the raw signals .mat files used for this project, you would need to download the ZIP file (which was too big to upload here). This contained .mat files of raw signals for training and testing. If you want to use them to extract features in MATLAB and create CSV datasets for the ML pipleline, download them from the shared Google Drive link (more details in the dissertation report - Availability of Data and Materials in Declaration). Please extract the ZIP and preferably place it in the signals/ folder within the matlab/ folder of the directory (as our MATLAB scripts are currently configured to that path when accessing the raw signals file).
 
 
@@ -252,4 +253,4 @@ src/ contains helper classes for the ML pipeline: data_handler.py, models.py, ti
 
 ## Important
 
-This is only for academic research use. 
+This is only for academic research purposes. 
