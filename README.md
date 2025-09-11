@@ -1,14 +1,17 @@
-# ris_jamming_anomaly_detection
-
+# Machine Learning-Based Anomaly Detection of RIS Jamming Attacks: Securing 6G Communications
 Author: Hui Shing Chong
 
 Date: September 2025
 
 Submitted in partial fulfillment of the requirements for the degree in Computing (Security & Reliability) MSc of Imperial College London
 
-## Summary
+## Project Summary
 
 This repository contains the source code for Dissertation 'Machine Learning-Based Anomaly Detection of RIS Jamming Attacks: Securing 6G Communications'. We explore how we can use ML models to detect RIS-based jamming, an attack that causes destructive interference on the receiver. We were able to achieve an overall accuracy of 92.3% for detecting RIS-based jamming. In our robustness and generalisation analysis, the models struggled in detecting stealthier RIS jamming attacks (around 56.4% accuracy for 1-3dB and 79.4% for 3-6dB RIS jamming). We then let models learn and use a stealthy-optimised threshold (), and they were able to achieve (63.4% and 82% accuracy for 1-3dB and 3-6dB jamming) but at a cost of higher false positives.
+
+
+* On MATLAB, we generate a signals and construct dataset for ML anomaly detection, RIS-jamming samples generated based on algorithm presented in "IRS-Based Wireless Jamming Attacks: When Jammers Can Attack Without Power" [1] - paper can be found here: https://ieeexplore.ieee.org/document/9112252
+* On Python, we train our models on the training dataset (across 5 seeds) - comparing standard and stealthy-optimised operational thresholds. We then perform thorough evaluation on held-out test sets, aggregating results across the seeds.
 
 Contributions:
 * First comprehensive feature analysis for RIS-based jamming detection.
