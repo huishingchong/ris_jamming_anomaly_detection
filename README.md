@@ -8,7 +8,11 @@ Submitted in partial fulfillment of the requirements for the degree in Computing
 
 ## Summary
 
-This repository contains the source code for Dissertation 'Machine Learning Anomaly Detection for Illegitimate RIS-based Jamming Attacks'. We explore how we can use ML models to detect RIS-based jamming, an attack that causes destructive interference on the receiver.
+This repository contains the source code for Dissertation 'Machine Learning Anomaly Detection for Illegitimate RIS-based Jamming Attacks'. We explore how we can use ML models to detect RIS-based jamming, an attack that causes destructive interference on the receiver. We were able to achieve an overall accuracy of 92.3% for detecting RIS-based jamming. In our robustness and generalisation analysis, the models struggled in detecting stealthier RIS jamming attacks (around 56.4% accuracy for 1-3dB and 79.4% for 3-6dB RIS jamming). We then let models learn and use a stealthy-optimised threshold (), and they were able to achieve (63.4% and 82% accuracy for 1-3dB and 3-6dB jamming) but at a cost of higher false positives.
+
+• First comprehensive feature analysis for RIS-based jamming detection.
+• Quantified detection limits across the attack intensity spectrum.
+• Established baseline performance metrics for future RIS security research.
 
 ## Quick Start
 
@@ -70,7 +74,7 @@ Python scripts are used for ML training, evaluation and Experimental Results.
 1. **Clone or download the project**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/huishingchong/ris_jamming_anomaly_detection.git
    cd ris_jamming_anomaly_detection
    ```
 
@@ -84,10 +88,10 @@ Python scripts are used for ML training, evaluation and Experimental Results.
 
 3. You can run MATLAB scripts by opening directory on MATLAB software, usually calling the script on the command window.
 
-- On MATLAB, at the top where you can configure your folder path, ensure you are in the local copy of this directory (cloned this repository) and inside the `matlab` folder in this repository, alternatively, you can use the Command Window `cd matlab`. You should see that you can open the .m files on the left.
+- On MATLAB, at the top where you can configure your folder path, ensure you are in the local copy of this directory (cloned this repository) and inside the `matlab` folder in this repository. Alternatively, you can use the Command Window `cd matlab`. You should see that you can open the .m files on the left.
 - MATLAB beginner-friendly guide here: https://matlabacademy.mathworks.com/details/matlab-onramp/gettingstarted
 
-4. Run python scripts in the current directory to execute the training and evaluation of models for detecting RIS-based jamming attacks.
+4. On your favorite IDE, you can run python scripts after you cd to ris_jamming_anomaly_detection to execute the training and evaluation of models for detecting RIS-based jamming attacks.
 
 For both MATLAB and Python scripts, consult the `File/Folder Explanations` section below for helpful descriptions on how to run each script and what to expect.
 
@@ -120,56 +124,57 @@ Other important libraries used is scikit-learn for ML pipeline, matplotlib for p
 
 ### MATLAB
 
-solve_ris_jamming_optimisation.m
+**solve_ris_jamming_optimisation.m**
 
 - Algorithm implementation RIS-based jamming, refer to Lyu et al. [1] for more details
 - Not standalone to run, instead used as a helper script called by validation_script.m, ris_vs_active_jamming_signal_comparison.m, generate_raw_signals_stratified.m
 
-validation_script.m
+**validation_script.m**
 
 - Produces Figures 2-5 equivalent from Lyu et al.'s Performance Evaluation Section [1] Refer to Validation chapter for the graphs
 - Standalone MATLAB script that can be run in command window `validation_script`, feel free change beamforming vector (omega) as what was done during my Beamforming Investigation
 - Note that this takes a long time to complete as we are aggregating over statistical runs per plot for robust validation
 
-ris_vs_active_jamming_signal_comparison.m
+**ris_vs_active_jamming_signal_comparison.m**
 
 - Script to explore the potential distinctive signal characteristics produced by RIS vs conventional active jamming
 - Compares a RIS jamming and an active jamming signal which achieve the same attack effectiveness (or similar depending on run) and provide power, spectral, etc. visualisations for comparison
 - Produces the "RIS vs Active Jamming: Signal Characteristics for Feature Engineering" figure seed in the report
 - Standalone MATLAB script that can be run in command window `ris_vs_active_jamming_signal_comparison`
 
-generate_raw_signals_stratified.m
+**generate_raw_signals_stratified.m**
 
 - Generate raw signals which are stored in .mat, for later feature extraction
 - This was used to generate training data and test sets
 - Run `generate_raw_signals_stratified` directly in command window, you can also modify configuration parameters to customise generation
 
-generate_features_dataset_research.m
+**generate_features_dataset_research.m**
 
 - Generates datasets ready for ML training or testing, for experimental results
 - Run `generate_features_dataset_research` directly in command window, but ensure correct input path to the .mat file and note the output directory
 - Raw signal files used for this research are in the signal folder (contains the test set).
 - Input: .mat file, Output: .csv file
 
-extract_features_dataset.m
+**extract_features_research.m**
 
 - Helper function to extract and compute features from signals, used by generate_features_dataset_research.m
 - Not standalone script to run
 
 Other helper standalone scripts: distribution_analysis.m, explore_mat_file.m which I used for checks
-For the raw signals .mat files used for this project, you would need to download the ZIP file (which was too big to upload here) from the shared Google Drive link (more details in the dissertation report). Please download the and extract the ZIP and place it in a the signals folder in the matlab folder of the directory.
+To access the raw signals .mat files used for this project, you would need to download the ZIP file (which was too big to upload here). This contained .mat files of raw signals for training and testing. If you want to use them to extract features in MATLAB and create CSV datasets for the ML pipleline, download them from the shared Google Drive link (more details in the dissertation report - Availability of Data and Materials in Declaration). Please extract the ZIP and preferably place it in the signals/ folder within the matlab/ folder of the directory (as our MATLAB scripts are currently configured to that path when accessing the raw signals file).
 
 ### Python
-
+Run the ML pipeline (train, evaluate models on the RIS jamming dataset).
 To reproduce my Experimental Results:
-feature_analysis.py
+
+**feature_analysis.py**
 
 ```
 python3 feature_analysis.py --csv datasets/jamming_features_research.csv --binary --output experimental_results/feature_analysis
 
 ```
 
-supervised_detection.py
+**supervised_detection.py**
 
 - Load dataset (train/val/test splits), prepare features and train supervised learning models
 - Per seed, creates model_artifacts.joblib and experiment_results.json containing the configuration and model & threshold selection, and val/test metrics
@@ -190,7 +195,7 @@ python3 supervised_detection.py \
 - The output path is where you will store model artifacts and json record of the training
 - `--enable-tuning` turns on model hyperparameter tuning which might take a while, to disable, simply run without the flag
 
-evaluation.py
+**evaluation.py**
 
 - Run models across the seeds against test datasets, collects metrics extensively for reporting
 - Runs models against test CSVs and output performance results: evaluation_complete_results.json
@@ -209,7 +214,7 @@ for seed in 42 123 456 789 999; do python3 evaluation.py --threshold-mode stealt
 
 Where --model is the path to the stored model artifacts and output is the path to where evaluation results are stored (recommend to keep seperate)
 
-aggregate_seeds.py
+**aggregate_seeds.py**
 
 - Script to consolidate/aggregate/summarise results across the multiple seed runs, for organisation and some plots
 
@@ -219,12 +224,12 @@ python3 aggregate_seeds.py --training-root results/rq2 --standard-root results/e
 
 src/ contains helper classes for my ML pipeline: data_handler.py, models.py, timing.py, metrics.py and utils.py
 
-**Note** for the runs, output directory set to results/ different so it doesn't override my experimental results
+**Note** for the runs, output directory set to results/ different folder so it doesn't override my experimental results output folder (experimental_results/)
 
 ### Other
 
-- The `datasets` folder contain train (train_jamming_features_research.csv) and test datasets (\*\_test.csv)
-- For transparency, you can find the folder of the full experimental results output used for analysis and reported in dissertation. This is located in `experimental_results` folder. Subfolder 'rq2' was for RQ2, 'eval' was for evaluation (RQ3) standard threhsold, 'eval_stealthy_threshold' was for evaluation (RQ3) stealthy threshold. and 'active_jamming' for comparison
+- The `datasets/` folder contain train (train_jamming_features_research.csv) and test datasets (\*\_test.csv)
+- For transparency, you can find the folder of the full experimental results output used for analysis and reported in dissertation. This is located in `experimental_results/` folder. Subfolder 'rq2' was output for RQ2, 'eval' was for evaluation (RQ3) on standard threhsold, 'eval_stealthy_threshold' was for evaluation (RQ3) stealthy threshold. 'active_jamming' folder showed the outputs for training models and evaluating the standard threshold, just as external comparison with RIS jamming.
 
 ## References
 
@@ -234,4 +239,4 @@ src/ contains helper classes for my ML pipeline: data_handler.py, models.py, tim
 
 ## Important
 
-This is only for academic research use.
+This is only for academic research use. 
