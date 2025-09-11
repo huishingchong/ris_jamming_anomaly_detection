@@ -8,11 +8,12 @@ Submitted in partial fulfillment of the requirements for the degree in Computing
 
 ## Summary
 
-This repository contains the source code for Dissertation 'Machine Learning Anomaly Detection for Illegitimate RIS-based Jamming Attacks'. We explore how we can use ML models to detect RIS-based jamming, an attack that causes destructive interference on the receiver. We were able to achieve an overall accuracy of 92.3% for detecting RIS-based jamming. In our robustness and generalisation analysis, the models struggled in detecting stealthier RIS jamming attacks (around 56.4% accuracy for 1-3dB and 79.4% for 3-6dB RIS jamming). We then let models learn and use a stealthy-optimised threshold (), and they were able to achieve (63.4% and 82% accuracy for 1-3dB and 3-6dB jamming) but at a cost of higher false positives.
+This repository contains the source code for Dissertation 'Machine Learning-Based Anomaly Detection of RIS Jamming Attacks: Securing 6G Communications'. We explore how we can use ML models to detect RIS-based jamming, an attack that causes destructive interference on the receiver. We were able to achieve an overall accuracy of 92.3% for detecting RIS-based jamming. In our robustness and generalisation analysis, the models struggled in detecting stealthier RIS jamming attacks (around 56.4% accuracy for 1-3dB and 79.4% for 3-6dB RIS jamming). We then let models learn and use a stealthy-optimised threshold (), and they were able to achieve (63.4% and 82% accuracy for 1-3dB and 3-6dB jamming) but at a cost of higher false positives.
 
-• First comprehensive feature analysis for RIS-based jamming detection.
-• Quantified detection limits across the attack intensity spectrum.
-• Established baseline performance metrics for future RIS security research.
+Contributions:
+* First comprehensive feature analysis for RIS-based jamming detection.
+* Quantified detection limits across the attack intensity spectrum.
+* Established baseline performance metrics for future RIS security research.
 
 ## Quick Start
 
@@ -120,6 +121,8 @@ Signal processing Toolbox, DSP, Statistics Toolbox, Communications Toolbox
 
 Other important libraries used is scikit-learn for ML pipeline, matplotlib for plots and visualisation.
 
+---
+
 ## File/Folder Explanations
 
 ### MATLAB
@@ -163,9 +166,12 @@ Other important libraries used is scikit-learn for ML pipeline, matplotlib for p
 Other helper standalone scripts: distribution_analysis.m, explore_mat_file.m which I used for checks
 To access the raw signals .mat files used for this project, you would need to download the ZIP file (which was too big to upload here). This contained .mat files of raw signals for training and testing. If you want to use them to extract features in MATLAB and create CSV datasets for the ML pipleline, download them from the shared Google Drive link (more details in the dissertation report - Availability of Data and Materials in Declaration). Please extract the ZIP and preferably place it in the signals/ folder within the matlab/ folder of the directory (as our MATLAB scripts are currently configured to that path when accessing the raw signals file).
 
+
+
 ### Python
 Run the ML pipeline (train, evaluate models on the RIS jamming dataset).
 To reproduce my Experimental Results:
+
 
 **feature_analysis.py**
 
@@ -173,6 +179,7 @@ To reproduce my Experimental Results:
 python3 feature_analysis.py --csv datasets/jamming_features_research.csv --binary --output experimental_results/feature_analysis
 
 ```
+
 
 **supervised_detection.py**
 
@@ -195,24 +202,26 @@ python3 supervised_detection.py \
 - The output path is where you will store model artifacts and json record of the training
 - `--enable-tuning` turns on model hyperparameter tuning which might take a while, to disable, simply run without the flag
 
+
 **evaluation.py**
 
 - Run models across the seeds against test datasets, collects metrics extensively for reporting
 - Runs models against test CSVs and output performance results: evaluation_complete_results.json
 
-- For evaluating model on standard threshold:
+* For evaluating model on standard threshold:
 
 ```
 for seed in 42 123 456 789 999; do python3 evaluation.py --model results/rq2/seed_${seed}/model_artifacts.joblib --bootstrap-iters 1000 --test-csvs datasets/jamming_features_research_stealthy_test.csv datasets/jamming_features_research_moderate_test.csv datasets/jamming_features_research_severe_test.csv datasets/jamming_features_research_critical_test.csv datasets/jamming_features_research_ultra_stealthy_test.csv datasets/jamming_features_research_ultra_strong_test.csv --output results/evaluation_standard_threshold/seed_${seed}; done
 ```
 
-- For evaluating model on stealthy-optimised threshold:
+* For evaluating model on stealthy-optimised threshold:
 
 ```
 for seed in 42 123 456 789 999; do python3 evaluation.py --threshold-mode stealthy --model results/rq2/seed_${seed}/model_artifacts.joblib --bootstrap-iters 1000 --test-csvs datasets/jamming_features_research_stealthy_test.csv datasets/jamming_features_research_moderate_test.csv datasets/jamming_features_research_severe_test.csv datasets/jamming_features_research_critical_test.csv datasets/jamming_features_research_ultra_stealthy_test.csv datasets/jamming_features_research_ultra_strong_test.csv --output results/evaluation_stealthy_threshold/seed_${seed}; done
 ```
 
 Where --model is the path to the stored model artifacts and output is the path to where evaluation results are stored (recommend to keep seperate)
+
 
 **aggregate_seeds.py**
 
@@ -225,6 +234,7 @@ python3 aggregate_seeds.py --training-root results/rq2 --standard-root results/e
 src/ contains helper classes for my ML pipeline: data_handler.py, models.py, timing.py, metrics.py and utils.py
 
 **Note** for the runs, output directory set to results/ different folder so it doesn't override my experimental results output folder (experimental_results/)
+
 
 ### Other
 
